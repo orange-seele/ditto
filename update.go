@@ -1,6 +1,9 @@
 package main
 
 import (
+	"strconv"
+	"strings"
+
 	list "charm.land/bubbles/v2/list"
 	tea "charm.land/bubbletea/v2"
 )
@@ -27,6 +30,25 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+shift+h":
 			m.showInfoBar = !m.showInfoBar
 			return m, nil
+
+		case "enter":
+			if m.showLayoutList && m.layoutList.FilterState() != list.Filtering {
+				if selected, ok := m.layoutList.SelectedItem().(item); ok {
+					m.activeLayout = strings.ToLower(selected.title)
+				}
+				m.showLayoutList = false
+				return m, nil
+			}
+			if m.showSizeList && m.sizeList.FilterState() != list.Filtering {
+				if selected, ok := m.sizeList.SelectedItem().(item); ok {
+					sizeStr := strings.TrimSuffix(selected.title, "%")
+					if size, err := strconv.Atoi(sizeStr); err == nil {
+						m.activeSize = size
+					}
+				}
+				m.showSizeList = false
+				return m, nil
+			}
 
 		case "q":
 			isFilteringLayout := m.showLayoutList && m.layoutList.FilterState() == list.Filtering
