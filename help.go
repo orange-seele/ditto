@@ -4,7 +4,7 @@ import (
 	key "charm.land/bubbles/v2/key"
 )
 
-type keyMap struct {
+type CommandMap struct {
 	Layout  key.Binding
 	Size    key.Binding
 	HideKey key.Binding
@@ -12,20 +12,20 @@ type keyMap struct {
 	Quit    key.Binding
 }
 
-func (k keyMap) ShortHelp() []key.Binding {
-	return []key.Binding{k.Help, k.Quit}
+func (c CommandMap) ShortHelp() []key.Binding {
+	return []key.Binding{c.Help, c.Quit}
 }
 
-func (k keyMap) FullHelp() [][]key.Binding {
+func (c CommandMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
-		{k.Layout},
-		{k.Size},
-		{k.HideKey},
-		{k.Quit},
+		{c.Layout},
+		{c.Size},
+		{c.HideKey},
+		{c.Quit},
 	}
 }
 
-var keys = keyMap{
+var commands = CommandMap{
 	Layout: key.NewBinding(
 		key.WithKeys("ctrl+shift+l"),
 		key.WithHelp("ctrl+shift+l", "layout"),

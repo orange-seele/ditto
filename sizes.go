@@ -1,22 +1,8 @@
 package main
 
-import (
-	"strings"
-
-	lipgloss "charm.land/lipgloss/v2"
-)
-
 type Finger int
 
-const (
-	FingerPinky Finger = iota
-	FingerRing
-	FingerMiddle
-	FingerIndex
-	FingerThumb
-)
-
-type KeyDef struct {
+type Key struct {
 	Label     string
 	Width     int
 	Finger    Finger
@@ -26,17 +12,24 @@ type KeyDef struct {
 	DivLabel  string
 }
 
-var fingerStyle = map[Finger]lipgloss.Style{
-	FingerPinky:  lipgloss.NewStyle().Foreground(lipgloss.BrightMagenta),
-	FingerRing:   lipgloss.NewStyle().Foreground(lipgloss.BrightRed),
-	FingerMiddle: lipgloss.NewStyle().Foreground(lipgloss.BrightYellow),
-	FingerIndex:  lipgloss.NewStyle().Foreground(lipgloss.BrightCyan),
-	FingerThumb:  lipgloss.NewStyle().Foreground(lipgloss.BrightGreen),
+const (
+	FingerPinky Finger = iota
+	FingerRing
+	FingerMiddle
+	FingerIndex
+	FingerThumb
+)
+
+var keyboardSizes = map[int][][]Key{
+	60:  size60,
+	65:  size65,
+	75:  size75,
+	80:  size80,
+	96:  size96,
+	100: size100,
 }
 
-var keyboardSizes = map[int][][]KeyDef{}
-
-var size60 = [][]KeyDef{
+var size60 = [][]Key{
 	// Row 0: Number row
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -115,7 +108,7 @@ var size60 = [][]KeyDef{
 	},
 }
 
-var size65 = [][]KeyDef{
+var size65 = [][]Key{
 	// Row 0: Number row + Del
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -201,7 +194,7 @@ var size65 = [][]KeyDef{
 	},
 }
 
-var size75 = [][]KeyDef{
+var size75 = [][]Key{
 	// Row 0: Esc + F1-F12 + Del
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -306,7 +299,7 @@ var size75 = [][]KeyDef{
 	},
 }
 
-var size80 = [][]KeyDef{
+var size80 = [][]Key{
 	// Row 0: Esc + F1-F12 + PrSc + ScLk + Pse
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -427,7 +420,7 @@ var size80 = [][]KeyDef{
 	},
 }
 
-var size96 = [][]KeyDef{
+var size96 = [][]Key{
 	// Row 0: Esc + F1-F12 + PrSc
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -550,7 +543,7 @@ var size96 = [][]KeyDef{
 	},
 }
 
-var size100 = [][]KeyDef{
+var size100 = [][]Key{
 	// Row 0: Esc + F1-F12 + PrSc + ScLk + Pse
 	{
 		{Label: "⎋", Width: 3, Finger: FingerPinky},
@@ -697,102 +690,4 @@ var size100 = [][]KeyDef{
 		{Label: ".", Width: 3, Finger: FingerPinky},
 		{Label: "   ", Width: 3, Finger: FingerPinky},
 	},
-}
-
-func init() {
-	keyboardSizes[60] = size60
-	keyboardSizes[65] = size65
-	keyboardSizes[75] = size75
-	keyboardSizes[80] = size80
-	keyboardSizes[96] = size96
-	keyboardSizes[100] = size100
-}
-
-func renderKeyboardArt(size int) string {
-	rows, ok := keyboardSizes[size]
-	if !ok {
-		return ""
-	}
-	var lines []string
-	for i, row := range rows {
-		if i == 0 {
-			lines = append(lines, renderTopLine(row))
-		}
-		lines = append(lines, renderMidLine(row))
-		if i < len(rows)-1 {
-			lines = append(lines, renderDivLine(row))
-		} else {
-			lines = append(lines, renderBotLine(row))
-		}
-	}
-	return strings.Join(lines, "\n")
-}
-
-func renderTopLine(keys []KeyDef) string {
-	var b strings.Builder
-	b.WriteByte(',')
-	for _, k := range keys {
-		b.WriteString(strings.Repeat("-", k.Width))
-		b.WriteByte(',')
-	}
-	return b.String()
-}
-
-func renderMidLine(keys []KeyDef) string {
-	var b strings.Builder
-	b.WriteByte('|')
-	for _, k := range keys {
-		label := k.Label
-		if k.DivLabel != "" {
-			label = ""
-		}
-		b.WriteString(fingerStyle[k.Finger].Render(centerLabel(label, k.Width)))
-		if k.Rightless {
-			b.WriteByte(' ')
-			continue
-		}
-		b.WriteByte('|')
-	}
-	return b.String()
-}
-
-func renderDivLine(keys []KeyDef) string {
-	var b strings.Builder
-	b.WriteByte('|')
-	for _, k := range keys {
-		if k.Gap {
-			if k.DivLabel != "" {
-				b.WriteString(fingerStyle[k.Finger].Render(centerLabel(k.DivLabel, k.Width)))
-			} else {
-				b.WriteString(strings.Repeat(" ", k.Width))
-			}
-			if k.Rightless {
-				b.WriteByte(',')
-			} else {
-				b.WriteByte('\'')
-			}
-			continue
-		}
-		b.WriteString(strings.Repeat("-", k.Width))
-		if k.Leftless {
-			b.WriteByte(',')
-		} else {
-			b.WriteByte('\'')
-		}
-	}
-	return b.String()
-}
-
-func renderBotLine(keys []KeyDef) string {
-	var b strings.Builder
-	b.WriteByte('\'')
-	for _, k := range keys {
-		b.WriteString(strings.Repeat("-", k.Width))
-		if k.Leftless {
-			b.WriteByte(',')
-		} else {
-			b.WriteByte('\'')
-		}
-	}
-	return b.String()
 }
