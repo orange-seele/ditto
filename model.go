@@ -35,6 +35,15 @@ func getInitModel() Model {
 		helpModel:      help.New(),
 		pressedKeys:    make(map[uint16]bool),
 	}
+	initModel.helpModel.Styles = help.Styles{
+		FullKey:       infoBarStyle,
+		FullDesc:      infoBarStyle,
+		FullSeparator: infoBarStyle,
+		ShortKey:      infoBarStyle,
+		ShortDesc:     infoBarStyle,
+		ShortSeparator: infoBarStyle,
+		Ellipsis:      infoBarStyle,
+	}
 	initModel.layoutList.Title = "Layouts"
 	initModel.layoutList.KeyMap.Quit.SetKeys("q")
 	initModel.sizeList.Title = "Sizes"

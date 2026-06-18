@@ -1,28 +1,71 @@
 package main
 
-import lipgloss "charm.land/lipgloss/v2"
+import (
+	"image/color"
+	"os"
+
+	lipgloss "charm.land/lipgloss/v2"
+)
+
+var listFrameStyle = lipgloss.NewStyle().Margin(1, 2)
 
 var (
-	listFrameStyle = lipgloss.NewStyle().Margin(1, 2)
+	listStyle    lipgloss.Style
+	fingerStyle  map[Finger]lipgloss.Style
+	fingerActive map[Finger]lipgloss.Style
+	infoBarStyle lipgloss.Style
+)
+
+var darkColors = map[Finger]color.Color{
+	FingerPinky:  lipgloss.BrightMagenta,
+	FingerRing:   lipgloss.BrightRed,
+	FingerMiddle: lipgloss.BrightYellow,
+	FingerIndex:  lipgloss.BrightBlue,
+	FingerThumb:  lipgloss.BrightCyan,
+}
+
+var lightColors = map[Finger]color.Color{
+	FingerPinky:  lipgloss.Magenta,
+	FingerRing:   lipgloss.Red,
+	FingerMiddle: lipgloss.Yellow,
+	FingerIndex:  lipgloss.Blue,
+	FingerThumb:  lipgloss.Cyan,
+}
+
+func init() {
+	isDark := lipgloss.HasDarkBackground(os.Stdin, os.Stdout)
+
+	colors := darkColors
+	borderColor := lipgloss.BrightBlack
+
+	if !isDark {
+		colors = lightColors
+		borderColor = lipgloss.Black
+	}
 
 	listStyle = lipgloss.NewStyle().
-			BorderForeground(lipgloss.BrightBlack).
-			Border(lipgloss.ThickBorder()).
-			Padding(1, 2)
+		BorderForeground(borderColor).
+		Border(lipgloss.ThickBorder()).
+		Padding(1, 2)
 
-	fingerStyle = map[Finger]lipgloss.Style{
-		FingerPinky:  lipgloss.NewStyle().Faint(true).Foreground(lipgloss.BrightMagenta),
-		FingerRing:   lipgloss.NewStyle().Faint(true).Foreground(lipgloss.BrightRed),
-		FingerMiddle: lipgloss.NewStyle().Faint(true).Foreground(lipgloss.BrightYellow),
-		FingerIndex:  lipgloss.NewStyle().Faint(true).Foreground(lipgloss.BrightCyan),
-		FingerThumb:  lipgloss.NewStyle().Faint(true).Foreground(lipgloss.BrightGreen),
+	fingerStyle = make(map[Finger]lipgloss.Style, len(colors))
+	fingerActive = make(map[Finger]lipgloss.Style, len(colors))
+
+	for finger, c := range colors {
+		base := lipgloss.NewStyle().Foreground(c)
+
+		if isDark {
+			fingerStyle[finger] = base.Faint(true)
+		} else {
+			fingerStyle[finger] = base
+		}
+
+		fingerActive[finger] = base.Copy().Bold(true).Italic(true)
 	}
 
-	fingerActive = map[Finger]lipgloss.Style{
-		FingerPinky:  lipgloss.NewStyle().Bold(true).Italic(true).Foreground(lipgloss.BrightMagenta),
-		FingerRing:   lipgloss.NewStyle().Bold(true).Italic(true).Foreground(lipgloss.BrightRed),
-		FingerMiddle: lipgloss.NewStyle().Bold(true).Italic(true).Foreground(lipgloss.BrightYellow),
-		FingerIndex:  lipgloss.NewStyle().Bold(true).Italic(true).Foreground(lipgloss.BrightCyan),
-		FingerThumb:  lipgloss.NewStyle().Bold(true).Italic(true).Foreground(lipgloss.BrightGreen),
+	if isDark {
+		infoBarStyle = lipgloss.NewStyle().Foreground(lipgloss.BrightBlack)
+	} else {
+		infoBarStyle = lipgloss.NewStyle().Faint(true)
 	}
-)
+}

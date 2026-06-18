@@ -99,12 +99,12 @@ var size60 = [][]Key{
 	// Row 4: Modifiers
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 22, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 100},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 126},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 126},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 	},
 }
@@ -183,11 +183,11 @@ var size65 = [][]Key{
 	// Row 4: Modifiers + arrows
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 3, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 22, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 3, Finger: FingerThumb, EvCode: 100},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 		{Label: "←", Width: 3, Finger: FingerPinky, EvCode: 105},
 		{Label: "↓", Width: 3, Finger: FingerPinky, EvCode: 108},
@@ -288,11 +288,11 @@ var size75 = [][]Key{
 	// Row 5: Modifiers + arrows
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 3, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 22, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 3, Finger: FingerThumb, EvCode: 100},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 		{Label: "←", Width: 3, Finger: FingerPinky, EvCode: 105},
 		{Label: "↓", Width: 3, Finger: FingerPinky, EvCode: 108},
@@ -407,12 +407,12 @@ var size80 = [][]Key{
 	// Row 5: Modifiers + arrows
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 23, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 100},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 126},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 126},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 		{Label: "  ", Width: 2, Finger: FingerPinky, EvCode: 0},
 		{Label: "←", Width: 3, Finger: FingerPinky, EvCode: 105},
@@ -529,11 +529,11 @@ var size96 = [][]Key{
 	// Row 5: Modifiers + arrows + numpad bottom
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 17, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 100},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 		{Label: "←", Width: 3, Finger: FingerPinky, EvCode: 105},
 		{Label: "↓", Width: 3, Finger: FingerPinky, EvCode: 108},
@@ -675,12 +675,12 @@ var size100 = [][]Key{
 	// Row 5: Modifiers + arrows + gap + 0 + . + (Enter blank)
 	{
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 29},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 125},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 125},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 56},
 		{Label: "Space", Width: 23, Finger: FingerThumb, EvCode: 57},
 		{Label: "Alt", Width: 5, Finger: FingerThumb, EvCode: 100},
-		{Label: "⌘", Width: 3, Finger: FingerThumb, EvCode: 126},
-		{Label: "Fn", Width: 3, Finger: FingerThumb, EvCode: 127},
+		{Label: "⌘", Width: 3, Finger: FingerRing, EvCode: 126},
+		{Label: "Fn", Width: 3, Finger: FingerRing, EvCode: 127},
 		{Label: "Ctrl", Width: 6, Finger: FingerPinky, EvCode: 97},
 		{Label: "  ", Width: 2, Finger: FingerPinky, EvCode: 0},
 		{Label: "←", Width: 3, Finger: FingerPinky, EvCode: 105},
