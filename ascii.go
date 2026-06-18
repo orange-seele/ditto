@@ -4,21 +4,37 @@ import (
 	"strings"
 )
 
-func buildKeyboard(size int) string {
+func applyLayout(keys []Key, layoutMap map[string]string) []Key {
+	if layoutMap == nil {
+		return keys
+	}
+	result := make([]Key, len(keys))
+	for i, k := range keys {
+		if newLabel, ok := layoutMap[k.Label]; ok {
+			k.Label = newLabel
+		}
+		result[i] = k
+	}
+	return result
+}
+
+func buildKeyboard(size int, layout string) string {
 	rows, ok := keyboardSizes[size]
 	if !ok {
 		return ""
 	}
+	layoutMap := keyboardLayouts[layout]
 	var lines []string
 	for i, row := range rows {
+		keys := applyLayout(row, layoutMap)
 		if i == 0 {
-			lines = append(lines, buildTopLine(row))
+			lines = append(lines, buildTopLine(keys))
 		}
-		lines = append(lines, buildMidLine(row))
+		lines = append(lines, buildMidLine(keys))
 		if i < len(rows)-1 {
-			lines = append(lines, buildDivLine(row))
+			lines = append(lines, buildDivLine(keys))
 		} else {
-			lines = append(lines, buildBotLine(row))
+			lines = append(lines, buildBotLine(keys))
 		}
 	}
 	return strings.Join(lines, "\n")

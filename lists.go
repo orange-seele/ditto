@@ -13,10 +13,10 @@ func (i item) Description() string { return i.desc }
 func (i item) FilterValue() string { return i.title }
 
 var keyboardLayoutItems = []list.Item{
-	item{title: "QWERTY", desc: "The default"},
-	item{title: "DVORAK", desc: "For nerds"},
-	item{title: "COLEMAK", desc: "For mega nerds"},
-	item{title: "COLEMAK-DH", desc: "Modern variant with better thumb positioning"},
+	item{title: "QWERTY", desc: "The original"},
+	item{title: "DVORAK", desc: "Efficiency-focused layout"},
+	item{title: "COLEMAK", desc: "Modern ergonomic layout"},
+	item{title: "COLEMAK-DH", desc: "Better thumb positioning"},
 	item{title: "WORKMAN", desc: "Reduces lateral finger movement"},
 	item{title: "AZERTY", desc: "Standard French layout"},
 }

@@ -50,7 +50,7 @@ func buildBaseView(m Model) string {
 		os.Exit(1)
 	}
 
-	keyboard := buildKeyboard(m.activeSize)
+	keyboard := buildKeyboard(m.activeSize, m.activeLayout)
 
 	if !m.showInfoBar {
 		return lipgloss.Place(termW, termH, lipgloss.Center, lipgloss.Center, keyboard)
