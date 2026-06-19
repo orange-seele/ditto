@@ -75,7 +75,7 @@ func buildBaseView(m Model) string {
 
 	keyboard := buildKeyboard(m.activeSize, m.activeLayout, m.pressedKeys)
 
-	if !m.showInfoBar {
+	if !m.showAllInfo {
 		return lipgloss.Place(termW, termH, lipgloss.Center, lipgloss.Center, keyboard)
 	}
 
@@ -87,8 +87,38 @@ func buildBaseView(m Model) string {
 	}
 
 	infoBar := buildInfoBar(m, keyboardWidth)
-	content := keyboard + "\n" + infoBar
+	legendsBar := buildLegendsBar(keyboardWidth)
+	content := legendsBar + "\n" + keyboard + "\n" + infoBar
 	return lipgloss.Place(termW, termH, lipgloss.Center, lipgloss.Center, content)
+}
+
+func buildLegendsBar(width int) string {
+	type Legend struct {
+		name  string
+		style lipgloss.Style
+	}
+
+	legends := []Legend{
+		{name: "pinky", style: fingerStyle[FingerPinky]},
+		{name: "ring", style: fingerStyle[FingerRing]},
+		{name: "middle", style: fingerStyle[FingerMiddle]},
+		{name: "index", style: fingerStyle[FingerIndex]},
+		{name: "thumb", style: fingerStyle[FingerThumb]},
+		{name: "any", style: fingerStyle[FingerAny]},
+	}
+
+	symbol := "•︎"
+
+	sb := strings.Builder{}
+	for _, legend := range legends {
+		fmt.Fprintf(&sb, "%s %s ", legend.style.Render(symbol), infoBarStyle.Render(legend.name))
+	}
+	legendsBar := sb.String()
+
+	spacerWidth := width - lipgloss.Width(legendsBar)
+	spacer := strings.Repeat(" ", max(0, spacerWidth))
+
+	return lipgloss.JoinHorizontal(lipgloss.Bottom, legendsBar, spacer)
 }
 
 func buildInfoBar(m Model, terminalWidth int) string {

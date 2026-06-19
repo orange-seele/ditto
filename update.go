@@ -29,7 +29,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 
 		case "ctrl+shift+h":
-			m.showInfoBar = !m.showInfoBar
+			m.showAllInfo = !m.showAllInfo
 			return m, nil
 
 		case "?":

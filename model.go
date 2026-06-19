@@ -7,17 +7,17 @@ import (
 )
 
 type Model struct {
-	layoutList     listModel
-	sizeList       listModel
-	activeLayout   string
-	activeSize     int
-	showLayoutList bool
-	showSizeList   bool
+	layoutList      listModel
+	sizeList        listModel
+	activeLayout    string
+	activeSize      int
+	showLayoutList  bool
+	showSizeList    bool
 	showQuitConfirm bool
-	quitSelected   int
-	showInfoBar    bool
-	helpModel      help.Model
-	pressedKeys    map[uint16]bool
+	quitSelected    int
+	showAllInfo     bool
+	helpModel       help.Model
+	pressedKeys     map[uint16]bool
 }
 
 type GlobalKeyMsg struct {
@@ -60,7 +60,7 @@ func getInitModel() Model {
 		activeSize:     cfg.ActiveSize,
 		showLayoutList: false,
 		showSizeList:   false,
-		showInfoBar:    true,
+		showAllInfo:    true,
 		helpModel:      help.New(),
 		pressedKeys:    make(map[uint16]bool),
 	}
