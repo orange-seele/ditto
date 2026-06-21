@@ -34,7 +34,7 @@ var sizes = map[int][][]key{
 var size60 = [][]key{
 	// Row 0: Number row
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "1", width: 3, finger: pinky, evCode: 2},
 		{label: "2", width: 3, finger: ring, evCode: 3},
 		{label: "3", width: 3, finger: middle, evCode: 4},
@@ -113,7 +113,7 @@ var size60 = [][]key{
 var size65 = [][]key{
 	// Row 0: Number row + Del
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "1", width: 3, finger: pinky, evCode: 2},
 		{label: "2", width: 3, finger: ring, evCode: 3},
 		{label: "3", width: 3, finger: middle, evCode: 4},
@@ -199,7 +199,7 @@ var size65 = [][]key{
 var size75 = [][]key{
 	// Row 0: Esc + F1-F12 + PrSc + Del + Pse
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "F1", width: 3, finger: pinky, evCode: 59},
 		{label: "F2", width: 3, finger: ring, evCode: 60},
 		{label: "F3", width: 3, finger: middle, evCode: 61},
@@ -212,7 +212,7 @@ var size75 = [][]key{
 		{label: "F10", width: 3, finger: pinky, evCode: 68},
 		{label: "F11", width: 3, finger: pinky, evCode: 87},
 		{label: "F12", width: 3, finger: pinky, evCode: 88},
-		{label: "⎚", width: 3, finger: any, evCode: 99},
+		{label: "Prt", width: 3, finger: any, evCode: 99},
 		{label: "Del", width: 4, finger: any, evCode: 111},
 		{label: "☼", width: 3, finger: any, evCode: 119},
 	},
@@ -304,7 +304,7 @@ var size75 = [][]key{
 var size80 = [][]key{
 	// Row 0: Esc + F1-F12 + PrSc + ScLk + Pse
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "   ", width: 3, finger: pinky, evCode: 0},
 		{label: "F1", width: 3, finger: pinky, evCode: 59},
 		{label: "F2", width: 3, finger: ring, evCode: 60},
@@ -321,7 +321,7 @@ var size80 = [][]key{
 		{label: "F11", width: 3, finger: pinky, evCode: 87},
 		{label: "F12", width: 3, finger: pinky, evCode: 88},
 		{label: "  ", width: 2, finger: index, gap: true, evCode: 0},
-		{label: "⎚", width: 3, finger: index, evCode: 99},
+		{label: "Prt", width: 3, finger: index, evCode: 99},
 		{label: "⚲", width: 3, finger: middle, evCode: 70},
 		{label: "☼", width: 3, finger: ring, evCode: 119},
 	},
@@ -425,7 +425,7 @@ var size80 = [][]key{
 var size96 = [][]key{
 	// Row 0: Esc + F1-F12 + Del + Home + End + PgUp + PgDn + Pse
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "F1", width: 3, finger: pinky, evCode: 59},
 		{label: "F2", width: 3, finger: ring, evCode: 60},
 		{label: "F3", width: 3, finger: middle, evCode: 61},
@@ -548,7 +548,7 @@ var size96 = [][]key{
 var size100 = [][]key{
 	// Row 0: Esc + F1-F12 + PrSc + ScLk + Pse
 	{
-		{label: "⎋", width: 3, finger: pinky, evCode: 1},
+		{label: "Esc", width: 3, finger: pinky, evCode: 1},
 		{label: "   ", width: 3, finger: pinky, evCode: 0},
 		{label: "F1", width: 3, finger: pinky, evCode: 59},
 		{label: "F2", width: 3, finger: ring, evCode: 60},
@@ -565,7 +565,7 @@ var size100 = [][]key{
 		{label: "F11", width: 3, finger: pinky, evCode: 87},
 		{label: "F12", width: 3, finger: pinky, evCode: 88},
 		{label: "  ", width: 2, finger: index, gap: true, evCode: 0},
-		{label: "⎚", width: 3, finger: index, evCode: 99},
+		{label: "Prt", width: 3, finger: index, evCode: 99},
 		{label: "⚲", width: 3, finger: middle, evCode: 70},
 		{label: "☼", width: 3, finger: ring, evCode: 119},
 		{label: " ", width: 2, finger: index, gap: true, rightless: true, evCode: 0},
