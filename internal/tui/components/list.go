@@ -11,10 +11,11 @@ import (
 )
 
 type ListModel struct {
-	Items       []string
-	Selected    int
-	Title       string
-	AccentColor color.Color
+	Items        []string
+	Selected     int
+	Title        string
+	AccentColor  color.Color
+	VisibleCount int
 }
 
 type ListAction int
@@ -91,13 +92,13 @@ func (l ListModel) View(statusBarStyle lipgloss.Style) string {
 }
 
 func (l ListModel) windowStart() int {
-	if len(l.Items) <= 3 {
+	if len(l.Items) <= l.VisibleCount {
 		return 0
 	}
-	return max(0, min(l.Selected-1, len(l.Items)-3))
+	return max(0, min(l.Selected-1, len(l.Items)-l.VisibleCount))
 }
 
 func (l ListModel) visibleItems() []string {
 	start := l.windowStart()
-	return l.Items[start : start+3]
+	return l.Items[start : start+l.VisibleCount]
 }

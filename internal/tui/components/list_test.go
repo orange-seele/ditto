@@ -11,10 +11,11 @@ import (
 
 func testList() ListModel {
 	return ListModel{
-		Items:       []string{"a", "b", "c"},
-		Selected:    0,
-		Title:       "Test",
-		AccentColor: color.RGBA{R: 255, G: 0, B: 0, A: 255},
+		Items:        []string{"a", "b", "c"},
+		Selected:     0,
+		Title:        "Test",
+		AccentColor:  color.RGBA{R: 255, G: 0, B: 0, A: 255},
+		VisibleCount: 3,
 	}
 }
 
@@ -102,10 +103,11 @@ func TestListModel_viewContainsHelp(t *testing.T) {
 
 func TestListModel_emptyItems(t *testing.T) {
 	l := ListModel{
-		Items:       nil,
-		Selected:    0,
-		Title:       "Empty",
-		AccentColor: color.RGBA{R: 0, G: 0, B: 255, A: 255},
+		Items:        nil,
+		Selected:     0,
+		Title:        "Empty",
+		AccentColor:  color.RGBA{R: 0, G: 0, B: 255, A: 255},
+		VisibleCount: 3,
 	}
 	_, action := l.Update(tea.KeyPressMsg{Code: tea.KeyDown})
 	if action == ListConfirm || action == ListCancel {

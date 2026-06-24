@@ -26,10 +26,12 @@ func (m Model) View() tea.View {
 
 		switch {
 		case m.showLayoutList:
-			h = 10
+			h = min(th, max(11, min(th-4, 13)))
+			m.layoutList.VisibleCount = h - 8
 			ov = OverlayBase.BorderForeground(LayoutColor).Width(overlayWidth).Height(h).Render(m.layoutList.View(StatusBarStyle))
 		case m.showSizeList:
-			h = 10
+			h = min(th, max(11, min(th-4, 13)))
+			m.sizeList.VisibleCount = h - 8
 			ov = OverlayBase.BorderForeground(SizeColor).Width(overlayWidth).Height(h).Render(m.sizeList.View(StatusBarStyle))
 		case m.showQuitDialog:
 			h = 8

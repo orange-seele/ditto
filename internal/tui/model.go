@@ -31,10 +31,11 @@ func InitModel() Model {
 	cfg := config.LoadConfig()
 
 	layoutList := components.ListModel{
-		Items:       keyboard.LayoutListItems,
-		Selected:    0,
-		Title:       "Layouts",
-		AccentColor: LayoutColor,
+		Items:        keyboard.LayoutListItems,
+		Selected:     0,
+		Title:        "Layouts",
+		AccentColor:  LayoutColor,
+		VisibleCount: 3,
 	}
 	for i, item := range layoutList.Items {
 		if item == cfg.ActiveLayout {
@@ -44,10 +45,11 @@ func InitModel() Model {
 	}
 
 	sizeList := components.ListModel{
-		Items:       keyboard.LayoutSizeItems,
-		Selected:    0,
-		Title:       "Sizes",
-		AccentColor: SizeColor,
+		Items:        keyboard.LayoutSizeItems,
+		Selected:     0,
+		Title:        "Sizes",
+		AccentColor:  SizeColor,
+		VisibleCount: 3,
 	}
 	for i, item := range sizeList.Items {
 		if item == fmt.Sprintf("%d%%", cfg.ActiveSize) {
