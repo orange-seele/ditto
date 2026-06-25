@@ -54,12 +54,12 @@ Once you have Go installed, you can install it directly, or clone if you'd like 
 ```bash
 
 # Install directly
-go install github.com/arvingarciabtw/ditto@latest
+go install github.com/arvingarciabtw/ditto/cmd/ditto@latest
 
 # Or clone and build
 git clone https://github.com/arvingarciabtw/ditto.git
 cd ditto
-go build
+go build -o ditto ./cmd/ditto/
 ```
 
 You can also install it from the AUR, though note that this one isn't maintained by me. You can see the [package](https://aur.archlinux.org/packages/ditto) here. For now, I recommend installing it with Go.
