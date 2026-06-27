@@ -11,7 +11,7 @@ var standards = map[string]standardData{
 	"iso":  {sizes: sizesISO, shiftMap: ukShift},
 	"abnt": {sizes: sizesABNT, shiftMap: abntShift, altGrMap: abntAltGr},
 	"jis":  {sizes: sizesJIS, shiftMap: jisShift},
-	"ks":   {sizes: nil},
+	"ks":   {sizes: sizesKS, shiftMap: ksShift},
 }
 
 var StandardListItems = []string{

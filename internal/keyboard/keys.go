@@ -22,6 +22,8 @@ const (
 	u3    = 9
 	u3_50 = 10
 	u3_75 = 11
+	u4    = 12
+	u4_50 = 13
 	u5_75 = 17
 	u6    = 18
 	u7_50 = 22
@@ -166,4 +168,9 @@ var (
 	keyMuhenkan = key{label: "無", width: u1, finger: Thumb, evCode: evdev.KEY_MUHENKAN}
 	keyHenkan   = key{label: "変", width: u1, finger: Thumb, evCode: evdev.KEY_HENKAN}
 	keyKana     = key{label: "仮", width: u1, finger: Thumb, evCode: evdev.KEY_KATAKANAHIRAGANA}
+
+	// KS-SPECIFIC KEYS
+	keyWon    = key{label: "₩", width: u1, finger: Pinky, evCode: evdev.KEY_RESERVED}
+	keyHanja  = key{label: "한자", width: u1_50, finger: Thumb, evCode: evdev.KEY_HANJA}
+	keyHangul = key{label: "한영", width: u1_50, finger: Thumb, evCode: evdev.KEY_HANGEUL}
 )

@@ -29,6 +29,7 @@ func Render(layout string, size int, standard string, pressedKeys map[uint16]boo
 	shiftHeld := pressedKeys[evdev.KEY_LEFTSHIFT] || pressedKeys[evdev.KEY_RIGHTSHIFT]
 	altGrHeld := pressedKeys[evdev.KEY_RIGHTALT]
 	kanaHeld := pressedKeys[evdev.KEY_KATAKANAHIRAGANA]
+	hangeulHeld := pressedKeys[evdev.KEY_HANGEUL]
 
 	shiftMap := sd.shiftMap
 	if lm, ok := shiftMaps[layout]; ok {
@@ -42,6 +43,9 @@ func Render(layout string, size int, standard string, pressedKeys map[uint16]boo
 	pressed := resolvePressed(rows, remapped, pressedKeys)
 	if kanaHeld {
 		applyKana(remapped, shiftHeld)
+	}
+	if hangeulHeld {
+		applyHangeul(remapped, shiftHeld)
 	}
 	applyModifiers(remapped, shiftHeld, shiftMap, altGrHeld, altGrMap)
 	return renderKeys(remapped, pressed, fingerStyle, fingerActive)
@@ -142,6 +146,23 @@ func applyModifiers(keys [][]key, shiftHeld bool, shiftMap map[string]string, al
 				if newLabel, ok := shiftMap[row[j].label]; ok {
 					row[j].label = newLabel
 				}
+			}
+		}
+	}
+}
+
+func applyHangeul(keys [][]key, shiftHeld bool) {
+	for _, row := range keys {
+		for j := range row {
+			label := row[j].label
+			if shiftHeld {
+				if tensed, ok := hangeulTensed[label]; ok {
+					row[j].label = tensed
+					continue
+				}
+			}
+			if v, ok := hangeulLayout[label]; ok {
+				row[j].label = v
 			}
 		}
 	}

@@ -61,6 +61,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if msg.Code == evdevlib.KEY_KATAKANAHIRAGANA {
 			m.kanaKeyHeld = msg.Down
 		}
+		if msg.Code == evdevlib.KEY_HANGEUL {
+			m.hangeulKeyHeld = msg.Down
+		}
 	case tea.WindowSizeMsg:
 		m.terminalWidth = msg.Width
 		m.terminalHeight = msg.Height
@@ -68,6 +71,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.pressedKeys[evdevlib.KEY_CAPSLOCK] = m.pressedKeys[evdevlib.KEY_CAPSLOCK] || m.capsLock
 	m.pressedKeys[evdevlib.KEY_KATAKANAHIRAGANA] = m.kanaKeyHeld || m.kanaActive
+	m.pressedKeys[evdevlib.KEY_HANGEUL] = m.hangeulKeyHeld || m.hangeulActive
 
 	return m, nil
 }
@@ -126,6 +130,7 @@ func (m Model) handleStandardListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd
 		m.activeStandard = m.standardList.Items[m.standardList.Selected]
 		m.showStandardList = false
 		m.kanaActive = false
+		m.hangeulActive = false
 		config.SaveConfig(config.Config{ActiveLayout: m.activeLayout, ActiveSize: m.activeSize, ActiveStandard: m.activeStandard})
 		return m, nil
 	case components.ListCancel:
@@ -160,9 +165,12 @@ func (m Model) handleGlobalKeys(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 		m.quitDialog.Selected = 0
 	case "ctrl+c":
 		return m, tea.Quit
-	case "k":
-		if m.activeStandard == "jis" {
+	case "c":
+		switch m.activeStandard {
+		case "jis":
 			m.kanaActive = !m.kanaActive
+		case "ks":
+			m.hangeulActive = !m.hangeulActive
 		}
 	}
 

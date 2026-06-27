@@ -134,7 +134,7 @@ func statusBar(m Model, width int) string {
 	layout := StatusBarStyle.Render(" •︎ " + m.activeLayout)
 
 	actives := lipgloss.JoinHorizontal(lipgloss.Bottom, size, layout)
-	bindings := renderBindings(components.Commands, m.activeStandard == "jis")
+	bindings := renderBindings(components.Commands, m.activeStandard)
 
 	sw := width - lipgloss.Width(actives) - lipgloss.Width(bindings)
 	spacer := strings.Repeat(" ", max(0, sw))
@@ -142,20 +142,24 @@ func statusBar(m Model, width int) string {
 	return lipgloss.JoinHorizontal(lipgloss.Top, actives, spacer, bindings)
 }
 
-func renderBindings(c components.Bindings, isJIS bool) string {
+func renderBindings(c components.Bindings, activeStandard string) string {
+	standardDesc := c.Standard.Help().Desc
+	if activeStandard != "jis" && activeStandard != "ks" {
+		standardDesc = "standard"
+	}
 	parts := []string{
 		StatusBarStyle.Render(c.Layout.Help().Key) + " " + StatusBarStyle.Render(c.Layout.Help().Desc),
 		StatusBarStyle.Render(c.Size.Help().Key) + " " + StatusBarStyle.Render(c.Size.Help().Desc),
+		StatusBarStyle.Render(c.Standard.Help().Key) + " " + StatusBarStyle.Render(standardDesc),
 	}
-	if isJIS {
-		parts = append(parts, StatusBarStyle.Render(c.Standard.Help().Key)+" "+StatusBarStyle.Render("std"))
-	} else {
-		parts = append(parts, StatusBarStyle.Render(c.Standard.Help().Key)+" "+StatusBarStyle.Render(c.Standard.Help().Desc))
-	}
-	if isJIS {
+	switch activeStandard {
+	case "jis":
 		parts = append(parts, StatusBarStyle.Render(c.Kana.Help().Key)+" "+StatusBarStyle.Render(c.Kana.Help().Desc))
+	case "ks":
+		parts = append(parts, StatusBarStyle.Render(c.Hangeul.Help().Key)+" "+StatusBarStyle.Render(c.Hangeul.Help().Desc))
+	default:
+		parts = append(parts, StatusBarStyle.Render(c.HideKey.Help().Key)+" "+StatusBarStyle.Render(c.HideKey.Help().Desc))
 	}
-	parts = append(parts, StatusBarStyle.Render(c.HideKey.Help().Key)+" "+StatusBarStyle.Render(c.HideKey.Help().Desc))
 	return strings.Join(parts, StatusBarStyle.Render(" • "))
 }
 

@@ -79,6 +79,19 @@ var sizesJIS = map[int][][]key{
 	100: size100JIS,
 }
 
+/*
+* Reference for KS standard
+* https://en.wikipedia.org/wiki/Korean_language_and_computers#/media/File:KB_South_Korea.svg
+ */
+var sizesKS = map[int][][]key{
+	60:  size60KS,
+	65:  size65KS,
+	75:  size75KS,
+	80:  size80KS,
+	96:  size96KS,
+	100: size100KS,
+}
+
 var size60ANSI = [][]key{
 	{
 		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual,
@@ -1104,6 +1117,257 @@ var size100JIS = [][]key{
 		{label: keySpace.label, width: u3_75, finger: keySpace.finger, evCode: keySpace.evCode},
 		keyHenkan, keyKana,
 		keyRightAlt, keyRightMeta, keyFn, keyRightCtrl,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyLeft, keyDown, keyRight,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPad0, keyPadDot,
+		{label: keyPadEnter.label, width: keyPadEnter.width, finger: keyPadEnter.finger, evCode: keyPadEnter.evCode},
+	},
+}
+
+var size60KS = [][]key{
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<-", width: u1_50, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+	},
+	{
+		{label: keyTab.label, width: u1_75, finger: keyTab.finger, evCode: keyTab.evCode},
+		keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u2, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: u3, finger: keyEnter.finger, evCode: keyEnter.evCode, gap: keyEnter.gap},
+	},
+	{
+		{label: "Shift", width: u2_75, finger: keyLeftShiftISO.finger, evCode: keyLeftShiftISO.evCode},
+		keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u3_75, finger: keyRightShiftISO.finger, evCode: keyRightShiftISO.evCode},
+	},
+	{
+		keyLeftCtrl, keyLeftMeta, keyLeftAlt, keyHanja,
+		{label: keySpace.label, width: u4, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul, keyRightAlt, keyRightMeta, keyFn, keyRightCtrl,
+	},
+}
+
+var size65KS = [][]key{
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<-", width: u1_50, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+		{label: keyLightsToggle.label, width: keyLightsToggle.width, finger: Any, evCode: keyLightsToggle.evCode},
+	},
+	{
+		keyTab, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u2, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		{label: keyHome.label, width: keyHome.width, finger: Any, evCode: keyHome.evCode},
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: keyEnter.width, finger: keyEnter.finger, evCode: keyEnter.evCode},
+		{label: keyPageUp.label, width: keyPageUp.width, finger: Any, evCode: keyPageUp.evCode},
+	},
+	{
+		{label: "Shift", width: u2_75, finger: keyLeftShift.finger, evCode: keyLeftShift.evCode},
+		keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u2_50, finger: keyRightShift.finger, evCode: keyRightShift.evCode},
+		keyUp,
+		{label: keyPageDown.label, width: keyPageDown.width, finger: Any, evCode: keyPageDown.evCode},
+	},
+	{
+		keyLeftCtrl, keyLeftMeta, keyLeftAlt, keyHanja,
+		{label: keySpace.label, width: u2_75, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul, keyRightAlt, keyRightMeta, keyRightCtrl, keyLeft, keyDown, keyRight,
+	},
+}
+
+var size75KS = [][]key{
+	{
+		keyEsc, keyF1, keyF2, keyF3, keyF4, keyF5, keyF6, keyF7, keyF8, keyF9, keyF10, keyF11, keyF12,
+		{label: keyPrintScreen.label, width: keyPrintScreen.width, finger: Any, evCode: keyPrintScreen.evCode},
+		{label: keyDelete.label, width: keyDelete.width, finger: Any, evCode: keyDelete.evCode},
+		{label: keyLightsToggle.label, width: keyLightsToggle.width, finger: Any, evCode: keyLightsToggle.evCode},
+	},
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<", width: u1, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+		{label: keyPageUp.label, width: keyPageUp.width, finger: Any, evCode: keyPageUp.evCode},
+	},
+	{
+		keyTab, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u1_75, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		{label: keyPageDown.label, width: keyPageDown.width, finger: Any, evCode: keyPageDown.evCode},
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: u2_75, finger: keyEnter.finger, evCode: keyEnter.evCode},
+		{label: keyHome.label, width: keyHome.width, finger: Any, evCode: keyHome.evCode},
+	},
+	{
+		keyLeftShift, keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u2_50, finger: keyRightShift.finger, evCode: keyRightShift.evCode},
+		keyUp,
+		{label: keyEnd.label, width: keyEnd.width, finger: Any, evCode: keyEnd.evCode},
+	},
+	{
+		keyLeftCtrl, keyLeftMeta,
+		{label: keyLeftAlt.label, width: u1, finger: keyLeftAlt.finger, evCode: keyLeftAlt.evCode},
+		keyHanja,
+		{label: keySpace.label, width: u3_75, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul,
+		{label: keyRightAlt.label, width: u1, finger: keyRightAlt.finger, evCode: keyRightAlt.evCode},
+		keyRightMeta, keyRightCtrl, keyLeft,
+		keyDown, keyRight,
+	},
+}
+
+var size80KS = [][]key{
+	{
+		keyEsc,
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyF1, keyF2, keyF3, keyF4, keyBlank, keyF5, keyF6, keyF7, keyF8, keyBlank, keyF9, keyF10,
+		keyF11, keyF12,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPrintScreen, keyScrollLock, keyLightsToggle,
+	},
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<--", width: u1_75, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyInsert, keyHome, keyPageUp,
+	},
+	{
+		keyTab, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u2_50, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyDelete, keyEnd, keyPageDown,
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: u3_50, finger: keyEnter.finger, evCode: keyEnter.evCode},
+		{label: keyBlank.label, width: u2, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: true, leftless: false},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: false, rightless: true, leftless: true},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: false, leftless: false},
+	},
+	{
+		{label: "Shift", width: u3, finger: keyLeftShift.finger, evCode: keyLeftShift.evCode},
+		keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u3_75, finger: keyRightShift.finger, evCode: keyRightShift.evCode},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: true, leftless: false},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyUp,
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+	},
+	{
+		keyLeftCtrl, keyLeftMeta, keyLeftAlt, keyHanja,
+		{label: keySpace.label, width: u4_50, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul, keyRightAlt, keyRightMeta, keyFn, keyRightCtrl,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyLeft, keyDown, keyRight,
+	},
+}
+
+var size96KS = [][]key{
+	{
+		keyEsc, keyF1, keyF2, keyF3, keyF4, keyF5, keyF6, keyF7, keyF8, keyF9, keyF10, keyF11, keyF12,
+		{label: keyDelete.label, width: keyDelete.width, finger: Any, evCode: keyDelete.evCode},
+		{label: keyHome.label, width: keyHome.width, finger: Any, evCode: keyHome.evCode},
+		{label: keyEnd.label, width: keyEnd.width, finger: Any, evCode: keyEnd.evCode},
+		{label: keyPageUp.label, width: keyPageUp.width, finger: Any, evCode: keyPageUp.evCode},
+		{label: keyPageDown.label, width: keyPageDown.width, finger: Any, evCode: keyPageDown.evCode},
+		{label: keyLightsToggle.label, width: keyLightsToggle.width, finger: Any, evCode: keyLightsToggle.evCode},
+	},
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<", width: u1, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+		keyNumLock, keyPadSlash, keyPadAsterisk, keyPadMinus,
+	},
+	{
+		keyTab, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u1_75, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPad7, keyPad8, keyPad9, keyPadPlus,
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: u2_75, finger: keyEnter.finger, evCode: keyEnter.evCode},
+		keyPad4,
+		keyPad5, keyPad6,
+		{label: keyPadPlus.label, width: keyPadPlus.width, finger: keyPadPlus.finger, evCode: keyPadPlus.evCode},
+	},
+	{
+		keyLeftShift, keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u2_50, finger: keyRightShift.finger, evCode: keyRightShift.evCode},
+		keyUp, keyPad1, keyPad2, keyPad3, keyPadEnter,
+	},
+	{
+		keyLeftCtrl, keyLeftMeta,
+		{label: keyLeftAlt.label, width: u1, finger: keyLeftAlt.finger, evCode: keyLeftAlt.evCode},
+		keyHanja,
+		{label: keySpace.label, width: u3_75, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul,
+		{label: keyRightAlt.label, width: u1, finger: keyRightAlt.finger, evCode: keyRightAlt.evCode},
+		keyRightMeta, keyRightCtrl, keyLeft,
+		keyDown, keyRight,
+		{label: keyPad0.label, width: u1, finger: Middle, evCode: keyPad0.evCode},
+		keyPadDot,
+		{label: keyPadEnter.label, width: keyPadEnter.width, finger: keyPadEnter.finger, evCode: keyPadEnter.evCode},
+	},
+}
+
+var size100KS = [][]key{
+	{
+		keyEsc,
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyF1, keyF2, keyF3, keyF4, keyBlank, keyF5, keyF6, keyF7, keyF8, keyBlank, keyF9, keyF10,
+		keyF11, keyF12,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPrintScreen, keyScrollLock, keyLightsToggle,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: true},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, rightless: true, leftless: true},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, rightless: true, leftless: true},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, rightless: true, leftless: true},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+	},
+	{
+		keyGrave, key1, key2, key3, key4, key5, key6, key7, key8, key9, key0, keyMinus, keyEqual, keyWon,
+		{label: "<--", width: u1_75, finger: keyBackspace.finger, evCode: keyBackspace.evCode},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyInsert, keyHome, keyPageUp,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyNumLock, keyPadSlash, keyPadAsterisk, keyPadMinus,
+	},
+	{
+		keyTab, keyQ, keyW, keyE, keyR, keyT, keyY, keyU, keyI, keyO, keyP, keyLeftBrace, keyRightBrace,
+		{label: keyBlank.label, width: u2_50, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyDelete, keyEnd, keyPageDown,
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPad7, keyPad8, keyPad9, keyPadPlus,
+	},
+	{
+		keyCapsLock, keyA, keyS, keyD, keyF, keyG, keyH, keyJ, keyK, keyL, keySemicolon, keyApostrophe,
+		{label: "Enter ↵", width: u3_50, finger: keyEnter.finger, evCode: keyEnter.evCode},
+		{label: keyBlank.label, width: u2, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: true, leftless: false},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: false, rightless: true, leftless: true},
+		{label: keyBlank.label, width: u2, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: false, leftless: false},
+		keyPad4, keyPad5, keyPad6,
+		{label: keyPadPlus.label, width: keyPadPlus.width, finger: keyPadPlus.finger, evCode: keyPadPlus.evCode},
+	},
+	{
+		{label: "Shift", width: u3, finger: keyLeftShift.finger, evCode: keyLeftShift.evCode},
+		keyZ, keyX, keyC, keyV, keyB, keyN, keyM, keyComma, keyDot, keySlash,
+		{label: "Shift", width: u3_75, finger: keyRightShift.finger, evCode: keyRightShift.evCode},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true, rightless: true, leftless: false},
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode},
+		keyUp,
+		{label: keyBlank.label, width: u1, finger: keyBlank.finger, evCode: keyBlank.evCode, rightless: true, leftless: true},
+		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},
+		keyPad1, keyPad2, keyPad3, keyPadEnter,
+	},
+	{
+		keyLeftCtrl, keyLeftMeta, keyLeftAlt, keyHanja,
+		{label: keySpace.label, width: u4_50, finger: keySpace.finger, evCode: keySpace.evCode},
+		keyHangul, keyRightAlt, keyRightMeta, keyFn, keyRightCtrl,
 		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode},
 		keyLeft, keyDown, keyRight,
 		{label: keyBlank.label, width: keyBlank.width, finger: keyBlank.finger, evCode: keyBlank.evCode, gap: true},

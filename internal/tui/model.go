@@ -27,6 +27,8 @@ type Model struct {
 	capsLock         bool
 	kanaKeyHeld      bool
 	kanaActive       bool
+	hangeulKeyHeld   bool
+	hangeulActive    bool
 	terminalWidth    int
 	terminalHeight   int
 }

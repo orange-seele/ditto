@@ -10,6 +10,7 @@ type Bindings struct {
 	Standard bkey.Binding
 	HideKey  bkey.Binding
 	Kana     bkey.Binding
+	Hangeul  bkey.Binding
 }
 
 var Commands = Bindings{
@@ -23,14 +24,18 @@ var Commands = Bindings{
 	),
 	Standard: bkey.NewBinding(
 		bkey.WithKeys("d"),
-		bkey.WithHelp("d", "standard"),
+		bkey.WithHelp("d", "std"),
 	),
 	HideKey: bkey.NewBinding(
 		bkey.WithKeys("h"),
 		bkey.WithHelp("h", "hide"),
 	),
 	Kana: bkey.NewBinding(
-		bkey.WithKeys("k"),
-		bkey.WithHelp("k", "kana"),
+		bkey.WithKeys("c"),
+		bkey.WithHelp("c", "chars"),
+	),
+	Hangeul: bkey.NewBinding(
+		bkey.WithKeys("c"),
+		bkey.WithHelp("c", "chars"),
 	),
 }
