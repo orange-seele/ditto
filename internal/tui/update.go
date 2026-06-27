@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
+	evdevlib "github.com/gvalkov/golang-evdev"
 
 	"github.com/arvingarciabtw/ditto/internal/config"
 	"github.com/arvingarciabtw/ditto/internal/evdev"
@@ -54,15 +55,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	case evdev.KeyMsg:
 		m.pressedKeys[msg.Code] = msg.Down
-		if msg.Code == 58 && msg.Down {
+		if msg.Code == evdevlib.KEY_CAPSLOCK && msg.Down {
 			m.capsLock = !m.capsLock
+		}
+		if msg.Code == evdevlib.KEY_KATAKANAHIRAGANA {
+			m.kanaKeyHeld = msg.Down
 		}
 	case tea.WindowSizeMsg:
 		m.terminalWidth = msg.Width
 		m.terminalHeight = msg.Height
 	}
 
-	m.pressedKeys[58] = m.pressedKeys[58] || m.capsLock
+	m.pressedKeys[evdevlib.KEY_CAPSLOCK] = m.pressedKeys[evdevlib.KEY_CAPSLOCK] || m.capsLock
+	m.pressedKeys[evdevlib.KEY_KATAKANAHIRAGANA] = m.kanaKeyHeld || m.kanaActive
 
 	return m, nil
 }
@@ -80,8 +85,10 @@ func (m Model) handleLayoutListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) 
 		}
 		m.showLayoutList = false
 		config.SaveConfig(config.Config{ActiveLayout: m.activeLayout, ActiveSize: m.activeSize, ActiveStandard: m.activeStandard})
+		return m, nil
 	case components.ListCancel:
 		m.showLayoutList = false
+		return m, nil
 	}
 
 	return m, nil
@@ -100,8 +107,10 @@ func (m Model) handleSizeListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 		}
 		m.showSizeList = false
 		config.SaveConfig(config.Config{ActiveLayout: m.activeLayout, ActiveSize: m.activeSize, ActiveStandard: m.activeStandard})
+		return m, nil
 	case components.ListCancel:
 		m.showSizeList = false
+		return m, nil
 	}
 
 	return m, nil
@@ -116,9 +125,12 @@ func (m Model) handleStandardListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd
 	case components.ListConfirm:
 		m.activeStandard = m.standardList.Items[m.standardList.Selected]
 		m.showStandardList = false
+		m.kanaActive = false
 		config.SaveConfig(config.Config{ActiveLayout: m.activeLayout, ActiveSize: m.activeSize, ActiveStandard: m.activeStandard})
+		return m, nil
 	case components.ListCancel:
 		m.showStandardList = false
+		return m, nil
 	}
 
 	return m, nil
@@ -134,6 +146,7 @@ func (m Model) handleQuitDialogUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) 
 		return m, tea.Quit
 	case components.DialogCancel:
 		m.showQuitDialog = false
+		return m, nil
 	}
 
 	return m, nil
@@ -147,6 +160,10 @@ func (m Model) handleGlobalKeys(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 		m.quitDialog.Selected = 0
 	case "ctrl+c":
 		return m, tea.Quit
+	case "k":
+		if m.activeStandard == "jis" {
+			m.kanaActive = !m.kanaActive
+		}
 	}
 
 	return m, nil

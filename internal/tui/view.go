@@ -134,7 +134,7 @@ func statusBar(m Model, width int) string {
 	layout := StatusBarStyle.Render(" •︎ " + m.activeLayout)
 
 	actives := lipgloss.JoinHorizontal(lipgloss.Bottom, size, layout)
-	bindings := renderBindings(components.Commands)
+	bindings := renderBindings(components.Commands, m.activeStandard == "jis")
 
 	sw := width - lipgloss.Width(actives) - lipgloss.Width(bindings)
 	spacer := strings.Repeat(" ", max(0, sw))
@@ -142,13 +142,20 @@ func statusBar(m Model, width int) string {
 	return lipgloss.JoinHorizontal(lipgloss.Top, actives, spacer, bindings)
 }
 
-func renderBindings(c components.Bindings) string {
+func renderBindings(c components.Bindings, isJIS bool) string {
 	parts := []string{
 		StatusBarStyle.Render(c.Layout.Help().Key) + " " + StatusBarStyle.Render(c.Layout.Help().Desc),
 		StatusBarStyle.Render(c.Size.Help().Key) + " " + StatusBarStyle.Render(c.Size.Help().Desc),
-		StatusBarStyle.Render(c.Standard.Help().Key) + " " + StatusBarStyle.Render(c.Standard.Help().Desc),
-		StatusBarStyle.Render(c.HideKey.Help().Key) + " " + StatusBarStyle.Render(c.HideKey.Help().Desc),
 	}
+	if isJIS {
+		parts = append(parts, StatusBarStyle.Render(c.Standard.Help().Key)+" "+StatusBarStyle.Render("std"))
+	} else {
+		parts = append(parts, StatusBarStyle.Render(c.Standard.Help().Key)+" "+StatusBarStyle.Render(c.Standard.Help().Desc))
+	}
+	if isJIS {
+		parts = append(parts, StatusBarStyle.Render(c.Kana.Help().Key)+" "+StatusBarStyle.Render(c.Kana.Help().Desc))
+	}
+	parts = append(parts, StatusBarStyle.Render(c.HideKey.Help().Key)+" "+StatusBarStyle.Render(c.HideKey.Help().Desc))
 	return strings.Join(parts, StatusBarStyle.Render(" • "))
 }
 
@@ -169,10 +176,23 @@ func overlay(bg string, ov string, x, y int) string {
 			continue
 		}
 
-		prefix := ansi.Cut(bl, 0, x)
+		prefix := ansi.Truncate(bl, x, "")
+		pw := ansi.StringWidth(prefix)
+		if pw < x {
+			prefix += strings.Repeat(" ", x-pw)
+		}
+
 		var suffix string
-		if x+w < bgW {
-			suffix = ansi.Cut(bl, x+w, bgW)
+		startCol := x + w
+		if startCol < bgW {
+			suffix = ansi.Cut(bl, startCol, bgW)
+			sw := ansi.StringWidth(suffix)
+			expected := bgW - startCol
+			if sw > expected {
+				suffix = ansi.Truncate(suffix, expected, "")
+			} else if sw < expected {
+				suffix += strings.Repeat(" ", expected-sw)
+			}
 		}
 		bgLines[by] = prefix + ol + suffix
 	}

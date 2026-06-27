@@ -7,6 +7,7 @@ import (
 
 	lipgloss "charm.land/lipgloss/v2"
 	ansi "github.com/charmbracelet/x/ansi"
+	evdev "github.com/gvalkov/golang-evdev"
 )
 
 func Render(layout string, size int, standard string, pressedKeys map[uint16]bool, fingerStyle, fingerActive map[Finger]lipgloss.Style) string {
@@ -25,8 +26,9 @@ func Render(layout string, size int, standard string, pressedKeys map[uint16]boo
 		remapped[i] = applyLayout(row, layoutMap)
 	}
 
-	shiftHeld := pressedKeys[42] || pressedKeys[54]
-	altGrHeld := pressedKeys[100]
+	shiftHeld := pressedKeys[evdev.KEY_LEFTSHIFT] || pressedKeys[evdev.KEY_RIGHTSHIFT]
+	altGrHeld := pressedKeys[evdev.KEY_RIGHTALT]
+	kanaHeld := pressedKeys[evdev.KEY_KATAKANAHIRAGANA]
 
 	shiftMap := sd.shiftMap
 	if lm, ok := shiftMaps[layout]; ok {
@@ -38,6 +40,9 @@ func Render(layout string, size int, standard string, pressedKeys map[uint16]boo
 	}
 
 	pressed := resolvePressed(rows, remapped, pressedKeys)
+	if kanaHeld {
+		applyKana(remapped, shiftHeld)
+	}
 	applyModifiers(remapped, shiftHeld, shiftMap, altGrHeld, altGrMap)
 	return renderKeys(remapped, pressed, fingerStyle, fingerActive)
 }
@@ -137,6 +142,23 @@ func applyModifiers(keys [][]key, shiftHeld bool, shiftMap map[string]string, al
 				if newLabel, ok := shiftMap[row[j].label]; ok {
 					row[j].label = newLabel
 				}
+			}
+		}
+	}
+}
+
+func applyKana(keys [][]key, shiftHeld bool) {
+	for _, row := range keys {
+		for j := range row {
+			label := row[j].label
+			if shiftHeld {
+				if v, ok := kanaSmallMap[label]; ok {
+					row[j].label = v
+					continue
+				}
+			}
+			if v, ok := kanaLayout[label]; ok {
+				row[j].label = v
 			}
 		}
 	}

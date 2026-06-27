@@ -159,4 +159,11 @@ var (
 	keyRightShiftISO = key{label: "Shft", width: u2, finger: keyRightShift.finger, evCode: keyRightShift.evCode}
 	keyCedilla       = key{label: "Ç", width: u1, finger: Pinky, evCode: evdev.KEY_RESERVED}
 	keyTilde         = key{label: "~", width: u1, finger: Pinky, evCode: evdev.KEY_RESERVED}
+	keyColon         = key{label: ":", width: u1, finger: Pinky, evCode: evdev.KEY_102ND}
+
+	// JIS-SPECIFIC KEYS
+	keyYen      = key{label: "¥", width: u1, finger: Pinky, evCode: evdev.KEY_YEN}
+	keyMuhenkan = key{label: "無", width: u1, finger: Thumb, evCode: evdev.KEY_MUHENKAN}
+	keyHenkan   = key{label: "変", width: u1, finger: Thumb, evCode: evdev.KEY_HENKAN}
+	keyKana     = key{label: "仮", width: u1, finger: Thumb, evCode: evdev.KEY_KATAKANAHIRAGANA}
 )

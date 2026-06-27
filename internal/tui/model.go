@@ -25,6 +25,8 @@ type Model struct {
 	showAllInfo      bool
 	pressedKeys      map[uint16]bool
 	capsLock         bool
+	kanaKeyHeld      bool
+	kanaActive       bool
 	terminalWidth    int
 	terminalHeight   int
 }

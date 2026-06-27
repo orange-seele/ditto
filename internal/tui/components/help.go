@@ -9,6 +9,7 @@ type Bindings struct {
 	Size     bkey.Binding
 	Standard bkey.Binding
 	HideKey  bkey.Binding
+	Kana     bkey.Binding
 }
 
 var Commands = Bindings{
@@ -27,5 +28,9 @@ var Commands = Bindings{
 	HideKey: bkey.NewBinding(
 		bkey.WithKeys("h"),
 		bkey.WithHelp("h", "hide"),
+	),
+	Kana: bkey.NewBinding(
+		bkey.WithKeys("k"),
+		bkey.WithHelp("k", "kana"),
 	),
 }

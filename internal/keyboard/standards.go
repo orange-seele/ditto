@@ -10,7 +10,7 @@ var standards = map[string]standardData{
 	"ansi": {sizes: sizesANSI, shiftMap: usShift},
 	"iso":  {sizes: sizesISO, shiftMap: ukShift},
 	"abnt": {sizes: sizesABNT, shiftMap: abntShift, altGrMap: abntAltGr},
-	"jis":  {sizes: nil},
+	"jis":  {sizes: sizesJIS, shiftMap: jisShift},
 	"ks":   {sizes: nil},
 }
 

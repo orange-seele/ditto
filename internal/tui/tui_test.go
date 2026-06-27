@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	tea "charm.land/bubbletea/v2"
+	evdevlib "github.com/gvalkov/golang-evdev"
 
 	"github.com/arvingarciabtw/ditto/internal/evdev"
 )
@@ -46,19 +47,19 @@ func TestModel_windowSize(t *testing.T) {
 
 func TestModel_keyPressDown(t *testing.T) {
 	m := testModel(t)
-	result, _ := m.Update(evdev.KeyMsg{Code: 30, Down: true})
+	result, _ := m.Update(evdev.KeyMsg{Code: evdevlib.KEY_A, Down: true})
 	m = result.(Model)
-	if !m.pressedKeys[30] {
+	if !m.pressedKeys[evdevlib.KEY_A] {
 		t.Error("expected key 30 to be pressed")
 	}
 }
 
 func TestModel_keyPressUp(t *testing.T) {
 	m := testModel(t)
-	m.pressedKeys[30] = true
-	result, _ := m.Update(evdev.KeyMsg{Code: 30, Down: false})
+	m.pressedKeys[evdevlib.KEY_A] = true
+	result, _ := m.Update(evdev.KeyMsg{Code: evdevlib.KEY_A, Down: false})
 	m = result.(Model)
-	if m.pressedKeys[30] {
+	if m.pressedKeys[evdevlib.KEY_A] {
 		t.Error("expected key 30 to be released")
 	}
 }
