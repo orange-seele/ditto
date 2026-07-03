@@ -1,12 +1,12 @@
 <img src="https://github.com/user-attachments/assets/97abc570-10c9-4f0a-bf7f-2e80b4a84d17" height="60" alt="ditto logo"/>
 
-[![Go](https://img.shields.io/github/languages/top/arvingarciabtw/ditto?logo=go&label=)](https://go.dev)
 [![CI](https://img.shields.io/github/actions/workflow/status/arvingarciabtw/ditto/ci.yml?logo=github&label=)](https://github.com/arvingarciabtw/ditto/actions)
+[![Go](https://img.shields.io/github/languages/top/arvingarciabtw/ditto?logo=go&label=)](https://go.dev)
 [![Commits](https://img.shields.io/github/commit-activity/m/arvingarciabtw/ditto)](https://github.com/arvingarciabtw/ditto/commits)
 [![Downloads](https://img.shields.io/github/downloads/arvingarciabtw/ditto/total?logo=github)](https://github.com/arvingarciabtw/ditto/releases)
 [![Release](https://img.shields.io/github/v/release/arvingarciabtw/ditto?logo=github)](https://github.com/arvingarciabtw/ditto/releases)
 [![AUR](https://img.shields.io/aur/version/ditto?logo=archlinux)](https://aur.archlinux.org/packages/ditto)
-[![License](https://img.shields.io/github/license/arvingarciabtw/ditto)](https://github.com/arvingarciabtw/ditto/blob/main/LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/arvingarciabtw/ditto/blob/main/LICENSE)
 
 <img width="1280" height="683" alt="ditto v1.0.3 demo" src="https://github.com/user-attachments/assets/f6cda363-045b-4313-9ae2-10dfda03ced8" />
 
@@ -65,8 +65,8 @@ yay -S ditto
 paru -S ditto
 ```
 
+Or via the flake for nix users:
 
-Or via the flake for nix users: 
 ```nix
 {
   inputs = {
@@ -82,9 +82,7 @@ Or via the flake for nix users:
 }
 ```
 
-it's available under `ditto.packages.<system>.default` .
-
-
+It's available under `ditto.packages.<system>.default`.
 
 Before executing the program with `ditto`, refer to the [permissions](#permissions) section below. You can also specify flags when executing ditto, particularly for locking the keyboard. See the [usage](#usage) section for more details on that.
 
@@ -102,6 +100,9 @@ Before executing the program with `ditto`, refer to the [permissions](#permissio
 > `sudo setcap -r "$(which ditto)"`
 >
 > To my knowledge, this is the safer way of granting permissions. You could technically add the user to the input group and it would work, but that'd be more unsafe since that would grant full control over all devices under `/dev/input`.
+
+> [!NOTE]
+> Since Nix store paths change on every rebuild, you'll need to re-run `setcap` after updating the flake input.
 
 ## Usage
 
