@@ -18,9 +18,13 @@ type Config struct {
 const DirName = "ditto"
 
 func configPath() (string, error) {
-	cfgDir, err := os.UserConfigDir()
-	if err != nil {
-		return "", err
+	cfgDir := os.Getenv("XDG_CONFIG_HOME")
+	if cfgDir == "" {
+		var err error
+		cfgDir, err = os.UserConfigDir()
+		if err != nil {
+			return "", err
+		}
 	}
 	return filepath.Join(cfgDir, DirName, "config.json"), nil
 }
