@@ -1,24 +1,16 @@
-// Package evdev discovers and reads raw keyboard input events from evdev
-// devices at /dev/input/event*, classifying them via udev properties.
-package evdev
+//go:build linux
+
+package input
 
 import (
 	"fmt"
 	"os"
 	"os/exec"
-	"os/user"
-	"slices"
-	"strconv"
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
 	evdev "github.com/gvalkov/golang-evdev"
 )
-
-type KeyMsg struct {
-	Code uint16
-	Down bool
-}
 
 const maxEventDevices = 32
 
@@ -100,25 +92,6 @@ func checkUdevadm(eventNum int) bool {
 		return false
 	}
 	return strings.Contains(string(out), "ID_INPUT_KEYBOARD=1")
-}
-
-func CheckInputGroup() error {
-	groups, err := os.Getgroups()
-	if err != nil {
-		return err
-	}
-	lookup, err := user.LookupGroup("input")
-	if err != nil {
-		return err
-	}
-	gid, err := strconv.Atoi(lookup.Gid)
-	if err != nil {
-		return err
-	}
-	if slices.Contains(groups, gid) {
-		return nil
-	}
-	return fmt.Errorf("user is not in the input group")
 }
 
 func PrintDeviceError(err error) {

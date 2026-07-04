@@ -1,4 +1,6 @@
-package evdev
+//go:build linux
+
+package input
 
 import (
 	"os"
@@ -43,9 +45,4 @@ func TestReadUeventFile_empty(t *testing.T) {
 	}
 }
 
-func TestCheckInputGroup_notInGroup(t *testing.T) {
-	err := CheckInputGroup()
-	if err != nil {
-		t.Logf("not in input group (expected in most test environments): %v", err)
-	}
-}
+
