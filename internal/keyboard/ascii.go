@@ -10,8 +10,8 @@ import (
 
 	lipgloss "charm.land/lipgloss/v2"
 	ansi "github.com/charmbracelet/x/ansi"
-	evdev "github.com/gvalkov/golang-evdev"
 
+	"github.com/arvingarciabtw/ditto/internal/keyboard/base"
 	"github.com/arvingarciabtw/ditto/internal/keyboard/standards"
 )
 
@@ -31,10 +31,10 @@ func Render(layout string, size int, standard string, pressedKeys map[uint16]boo
 		remapped[i] = applyLayout(row, layoutMap)
 	}
 
-	shiftHeld := pressedKeys[evdev.KEY_LEFTSHIFT] || pressedKeys[evdev.KEY_RIGHTSHIFT]
-	altGrHeld := pressedKeys[evdev.KEY_RIGHTALT]
-	kanaHeld := pressedKeys[evdev.KEY_KATAKANAHIRAGANA]
-	hangeulHeld := pressedKeys[evdev.KEY_HANGEUL]
+	shiftHeld := pressedKeys[base.KEY_LEFTSHIFT] || pressedKeys[base.KEY_RIGHTSHIFT]
+	altGrHeld := pressedKeys[base.KEY_RIGHTALT]
+	kanaHeld := pressedKeys[base.KEY_KATAKANAHIRAGANA]
+	hangeulHeld := pressedKeys[base.KEY_HANGEUL]
 
 	shiftMap := sd.ShiftMap
 	if lm, ok := shiftMaps[layout]; ok {
@@ -143,7 +143,9 @@ func applyModifiers(keys [][]Key, shiftHeld bool, shiftMap map[string]string, al
 			}
 			if shiftHeld {
 				for j := range row {
-					row[j].Label = strings.ToUpper(row[j].Label)
+					if len(row[j].Label) == 1 {
+						row[j].Label = strings.ToUpper(row[j].Label)
+					}
 				}
 			}
 		} else if shiftHeld && shiftMap != nil {

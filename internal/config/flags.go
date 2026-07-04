@@ -1,10 +1,14 @@
 package config
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
 
 func LoadWithFlags() Config {
 	lock := flag.Bool("lock", false, "lock settings toggles")
-	unlock := flag.Bool("unlock", false, "unlock settings toggles")
+	flag.Bool("unlock", false, "unlock settings toggles")
 	flag.Parse()
 
 	cfg := LoadConfig()
@@ -12,10 +16,11 @@ func LoadWithFlags() Config {
 		switch f.Name {
 		case "lock":
 			cfg.Locked = *lock
-			SaveConfig(cfg)
 		case "unlock":
-			cfg.Locked = !*unlock
-			SaveConfig(cfg)
+			cfg.Locked = false
+		}
+		if err := SaveConfig(cfg); err != nil {
+			fmt.Fprintf(os.Stderr, "failed to save config: %v\n", err)
 		}
 	})
 	return cfg

@@ -2,6 +2,7 @@ package keyboard
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,9 +15,12 @@ type customLayoutFile struct {
 	Shift map[string]string `json:"shift,omitempty"`
 }
 
-func init() {
+var customLayoutNames []string
+
+func loadCustomLayouts() {
 	cfgDir, err := os.UserConfigDir()
 	if err != nil {
+		fmt.Fprintf(os.Stderr, "failed to get config dir: %v\n", err)
 		return
 	}
 	dir := filepath.Join(cfgDir, "ditto", "layouts")
@@ -37,18 +41,22 @@ func init() {
 
 		data, err := os.ReadFile(filepath.Join(dir, entry.Name()))
 		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to read layout %s: %v\n", entry.Name(), err)
 			continue
 		}
 
 		var clf customLayoutFile
 		if err := json.Unmarshal(data, &clf); err != nil {
+			fmt.Fprintf(os.Stderr, "failed to parse layout %s: %v\n", entry.Name(), err)
 			continue
 		}
 
 		if clf.Map == nil {
+			fmt.Fprintf(os.Stderr, "layout %s has no map, skipping\n", entry.Name())
 			continue
 		}
 
+		customLayoutNames = append(customLayoutNames, name)
 		layouts[name] = clf.Map
 		if clf.Shift != nil {
 			shiftMaps[name] = clf.Shift

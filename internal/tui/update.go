@@ -5,10 +5,10 @@ import (
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
-	evdevlib "github.com/gvalkov/golang-evdev"
 
 	"github.com/arvingarciabtw/ditto/internal/config"
-	"github.com/arvingarciabtw/ditto/internal/evdev"
+	"github.com/arvingarciabtw/ditto/internal/input"
+	basepkg "github.com/arvingarciabtw/ditto/internal/keyboard/base"
 	"github.com/arvingarciabtw/ditto/internal/tui/components"
 )
 
@@ -45,7 +45,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "h":
 			if !m.locked {
 				m.showAllInfo = !m.showAllInfo
-				config.SaveConfig(m.saveConfig())
+				_ = config.SaveConfig(m.saveConfig())
 			}
 			return m, nil
 		}
@@ -62,15 +62,15 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		default:
 			return m.handleGlobalKeys(msg)
 		}
-	case evdev.KeyMsg:
+	case input.KeyMsg:
 		m.pressedKeys[msg.Code] = msg.Down
-		if msg.Code == evdevlib.KEY_CAPSLOCK && msg.Down {
+		if msg.Code == basepkg.KEY_CAPSLOCK && msg.Down {
 			m.capsLock = !m.capsLock
 		}
-		if msg.Code == evdevlib.KEY_KATAKANAHIRAGANA {
+		if msg.Code == basepkg.KEY_KATAKANAHIRAGANA {
 			m.kanaKeyHeld = msg.Down
 		}
-		if msg.Code == evdevlib.KEY_HANGEUL {
+		if msg.Code == basepkg.KEY_HANGEUL {
 			m.hangeulKeyHeld = msg.Down
 		}
 	case tea.WindowSizeMsg:
@@ -78,9 +78,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.terminalHeight = msg.Height
 	}
 
-	m.pressedKeys[evdevlib.KEY_CAPSLOCK] = m.pressedKeys[evdevlib.KEY_CAPSLOCK] || m.capsLock
-	m.pressedKeys[evdevlib.KEY_KATAKANAHIRAGANA] = m.kanaKeyHeld || m.kanaActive
-	m.pressedKeys[evdevlib.KEY_HANGEUL] = m.hangeulKeyHeld || m.hangeulActive
+	m.pressedKeys[basepkg.KEY_CAPSLOCK] = m.pressedKeys[basepkg.KEY_CAPSLOCK] || m.capsLock
+	m.pressedKeys[basepkg.KEY_KATAKANAHIRAGANA] = m.kanaKeyHeld || m.kanaActive
+	m.pressedKeys[basepkg.KEY_HANGEUL] = m.hangeulKeyHeld || m.hangeulActive
 
 	return m, nil
 }
@@ -97,7 +97,7 @@ func (m Model) handleLayoutListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) 
 			m.activeStandard = "iso"
 		}
 		m.showLayoutList = false
-		config.SaveConfig(m.saveConfig())
+		_ = config.SaveConfig(m.saveConfig())
 		return m, nil
 	case components.ListCancel:
 		m.showLayoutList = false
@@ -119,7 +119,7 @@ func (m Model) handleSizeListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 			m.activeSize = size
 		}
 		m.showSizeList = false
-		config.SaveConfig(m.saveConfig())
+		_ = config.SaveConfig(m.saveConfig())
 		return m, nil
 	case components.ListCancel:
 		m.showSizeList = false
@@ -140,7 +140,7 @@ func (m Model) handleStandardListUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd
 		m.showStandardList = false
 		m.kanaActive = false
 		m.hangeulActive = false
-		config.SaveConfig(m.saveConfig())
+		_ = config.SaveConfig(m.saveConfig())
 		return m, nil
 	case components.ListCancel:
 		m.showStandardList = false

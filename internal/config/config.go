@@ -1,9 +1,8 @@
-// Package config persists the active layout and size settings to
-// the user's config directory (~/.config/ditto/config.json).
 package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -55,20 +54,20 @@ func LoadConfig() Config {
 	return cfg
 }
 
-func SaveConfig(cfg Config) {
+func SaveConfig(cfg Config) error {
 	path, err := configPath()
 	if err != nil {
-		return
+		return fmt.Errorf("config path: %w", err)
 	}
 	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
-		return
+		return fmt.Errorf("mkdir config dir: %w", err)
 	}
 	data, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {
-		return
+		return fmt.Errorf("marshal config: %w", err)
 	}
-	err = os.WriteFile(path, data, 0o600)
-	if err != nil {
-		return
+	if err := os.WriteFile(path, data, 0o600); err != nil {
+		return fmt.Errorf("write config: %w", err)
 	}
+	return nil
 }
