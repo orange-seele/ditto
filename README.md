@@ -10,21 +10,20 @@
 
 <img width="1280" height="683" alt="ditto v1.0.3 demo" src="https://github.com/user-attachments/assets/f6cda363-045b-4313-9ae2-10dfda03ced8" />
 
-Ditto is a system-wide ASCII keyboard visualizer that captures global key presses. Even if you're outside the terminal session, the visualizer will still keep updating. Hit the repo with a star if you like this little interactive eye candy app! ⭐
+Ditto is a system-wide ASCII keyboard visualizer that mirrors your live keyboard inputs in real time, even when the terminal isn't in focus. It automatically syncs with your native terminal color scheme for seamless, interactive eye candy. If you love it, drop a ⭐ on the repo!
 
 ## Showcase
 
-|                                              60%                                              |                                              65%                                              |
-| :-------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: |
-| ![60percent](https://github.com/user-attachments/assets/2001a816-b8d7-460b-b63f-6168cb5150e6) | ![65percent](https://github.com/user-attachments/assets/6b445af6-f482-4ecc-ac04-3e36666f194f) |
-
-|                                              75%                                              |                                              80%                                              |
-| :-------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: |
-| ![75percent](https://github.com/user-attachments/assets/738c2d9d-f4d7-4e0a-a06b-d99433945350) | ![80percent](https://github.com/user-attachments/assets/6e5cef0f-6498-4a1c-981e-15f67a3bcb06) |
-
-|                                              96%                                              |                                              100%                                              |
-| :-------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------: |
-| ![96percent](https://github.com/user-attachments/assets/6fd42732-de0e-4038-8beb-595bf3c0f771) | ![100percent](https://github.com/user-attachments/assets/4a916cb2-c433-4ac3-b9c7-05c6e666610b) |
+<table>
+  <tr>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/4a916cb2-c433-4ac3-b9c7-05c6e666610b" alt="screenshot of rice with catppuccin"></td>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/46282711-f3fc-41ae-8c3d-8a3e7aa072de" alt="screenshot of rice with gruvbox"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/8d213d5c-49a1-46db-8bd2-9dcaf96ca8cc" alt="screenshot of rice with everforest"></td>
+    <td width="50%"><img src="https://github.com/user-attachments/assets/9120e9ab-3892-4b77-a953-86dc482b80ec" alt="screenshot of rice with tokyonight"></td>
+  </tr>
+</table>
 
 ## Table of Contents
 
@@ -86,6 +85,8 @@ Or via the flake for nix users:
 
 It's available under `ditto.packages.<system>.default`.
 
+Before executing the program with `ditto`, refer to the [permissions](#permissions) section below.
+
 ### Windows
 
 Download `ditto_windows_amd64.exe` from the [Releases](https://github.com/arvingarciabtw/ditto/releases) page, put it somewhere convenient (e.g. `C:\Users\<you>\bin` or `C:\Tools`), and add that folder to your `PATH`.
@@ -97,18 +98,18 @@ Download `ditto_darwin_arm64` (Apple Silicon) or `ditto_darwin_amd64` (Intel) fr
 > [!NOTE]
 > macOS support is **untested**. The keymapper is implemented and it compiles via CI, but it hasn't been verified on a physical Mac. If you try it, please report any issues!
 
-Before executing the program with `ditto`, refer to the [permissions](#permissions) section below. You can also specify flags when executing ditto, particularly for locking the keyboard. See the [usage](#usage) section for more details on that.
-
 ## Permissions
 
 > [!IMPORTANT]
-> Ditto reads raw evdev events from `/dev/input/event\*`, which isn't readable by normal users by default. You can grant the binary read access with:
+> For Linux users:
+>
+> To add support for Wayland compositors, keyboard events are captured via `evdev`. Ditto reads raw events from `/dev/input/event\*`, which isn't readable by normal users by default. You can grant the binary read access with:
 >
 > `sudo setcap cap_dac_read_search=ep "$(which ditto)"`
 >
 > The program will inform you about this when executing without permissions.
 >
-> This adds a single Linux capability (`cap_dac_read_search`) to the binary, so it only bypasses the DAC read check on `/dev/input/event*`, nothing else. The binary still runs as your user, not as root. You'd need to re-run it if you rebuilt the binary. You can revoke anytime with:
+> This adds a single Linux capability to the binary, so it only bypasses the DAC read check on `/dev/input/event*`, nothing else. The binary still runs as your user, not as root. You'd need to re-run it if you rebuilt the binary. You can revoke anytime with:
 >
 > `sudo setcap -r "$(which ditto)"`
 >
