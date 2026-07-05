@@ -30,13 +30,15 @@ Ditto is a system-wide ASCII keyboard visualizer that mirrors your live keyboard
 - [Motivation](#motivation)
 - [Installation](#installation)
 - [Permissions](#permissions)
+- [Config](#config)
 - [Usage](#usage)
   - [Lists](#lists)
   - [Custom Layouts](#custom-layouts)
   - [Lock](#lock)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
+- [Stargazers](#stargazers)
+- [Resources](#resources)
 - [Note on AI](#note-on-ai)
 - [License](#license)
 
@@ -93,10 +95,12 @@ Download `ditto_windows_amd64.exe` from the [Releases](https://github.com/arving
 
 ### macOS
 
-Download `ditto_darwin_arm64` (Apple Silicon) or `ditto_darwin_amd64` (Intel) from the [Releases](https://github.com/arvingarciabtw/ditto/releases) page, rename it to `ditto` (or leave as-is), place it in a directory on your `PATH` (e.g. `/usr/local/bin`), and make it executable with `chmod +x /path/to/ditto`.
+Download `ditto_darwin_arm64` (Apple Silicon) or `ditto_darwin_amd64` (Intel) from the [Releases](https://github.com/arvingarciabtw/ditto/releases) page, rename it to `dittokb`, place it in a directory on your `PATH` (e.g. `/usr/local/bin`), and make it executable with `chmod +x /path/to/dittokb`.
 
 > [!NOTE]
 > macOS support is **untested**. The keymapper is implemented and it compiles via CI, but it hasn't been verified on a physical Mac. If you try it, please report any issues!
+>
+> The binary is named `dittokb` rather than `ditto` on macOS, since `ditto` is already a built-in system utility (`/usr/bin/ditto`, used for copying directories/app bundles). All commands below that reference `ditto` should be run as `dittokb` instead.
 
 ## Permissions
 
@@ -118,7 +122,18 @@ Download `ditto_darwin_arm64` (Apple Silicon) or `ditto_darwin_amd64` (Intel) fr
 > [!NOTE]
 > Since Nix store paths change on every rebuild, you'll need to re-run `setcap` after updating the flake input.
 
+## Config
+
+Ditto stores its config file and custom layouts in a per-OS config directory:
+
+- **Linux:** `~/.config/ditto/` (or `$XDG_CONFIG_HOME/ditto/` if set)
+- **macOS:** `~/Library/Application Support/ditto/`
+- **Windows:** `%AppData%\ditto\`
+
 ## Usage
+
+> [!NOTE]
+> macOS users: substitute `dittokb` for `ditto` in all commands below.
 
 There are four main commands you need to be aware of: `l`, `s`, `d`, and `c`. Pressing `l` opens up the layout list, `s` opens up the size list, and `d` opens up the standard list. If your active standard is either JIS or KS, you can press `c` to toggle between the Latin alphabet and the standard's logograms.
 
@@ -201,7 +216,7 @@ Press `d` to open the standard list. This determines the physical keyboard stand
 
 ### Custom Layouts
 
-Custom layouts are loaded from JSON files placed in `~/.config/ditto/layouts/`.
+Custom layouts are loaded from a `layouts/` folder inside [ditto's config directory](#configuration).
 
 Each `.json` file becomes a named layout (the filename without extension). Format:
 
@@ -240,7 +255,7 @@ If you're happy with the current layout and want to keep that permanently every 
 
 Inversely, you can just do `ditto --unlock` to unlock the keyboard.
 
-If you prefer, you can also just edit the config file at `~/.config/ditto/config.json` to change the value of the `locked` key.
+If you prefer, you can also just edit `config.json` in [ditto's config directory](#configuration) directly to change the value of the `locked` key.
 
 ## Roadmap
 
@@ -251,6 +266,7 @@ Some features I'm thinking of implementing in the future, not in order.
 - [x] Additional niche standards (JIS, ABNT, KS)
 - [x] Windows support
 - [x] Mac support (best-effort, untested)
+- [ ] Smoother variant with box drawing characters
 - [ ] Custom layouts via TUI
 - [ ] Custom finger zones
 
@@ -264,7 +280,13 @@ When writing my commit messages, I follow the [Conventional Commits](https://www
 
 If you're liking Ditto, I'd appreciate a star! Thanks again! ⭐
 
-## Acknowledgments
+## Stargazers
+
+Huge thanks to everyone that found the project interesting! :)
+
+<img src="https://readme-contribs.as93.net/stargazers/arvingarciabtw/ditto" alt="ditto stargazers" />
+
+## Resources
 
 Here is a list of useful resources that I always refer to when developing:
 
