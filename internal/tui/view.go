@@ -184,14 +184,30 @@ func keycastView(m Model) string {
 	}
 
 	now := time.Now()
-	var keyLabels []string
+	var entries []keycastEntry
 	for _, e := range m.keycastKeys {
 		if now.Sub(e.pressedAt) < 1500*time.Millisecond {
-			keyLabels = append(keyLabels, e.label)
+			entries = append(entries, e)
 		}
 	}
-	labels := fitLabelsToWidth(keyLabels, tw)
-	row := keycastBoxRow(labels)
+
+	labels := make([]string, len(entries))
+	for i, e := range entries {
+		labels[i] = e.label
+	}
+	labels = fitLabelsToWidth(labels, tw)
+
+	var kept []keycastEntry
+	for _, l := range labels {
+		for _, e := range entries {
+			if e.label == l {
+				kept = append(kept, e)
+				break
+			}
+		}
+	}
+
+	row := keycastBoxRow(kept, m.keycastFingerColors)
 
 	showBar := m.showAllInfo
 	if !showBar {
@@ -201,7 +217,11 @@ func keycastView(m Model) string {
 		return lipgloss.Place(tw, th, lipgloss.Center, lipgloss.Center, row)
 	}
 
-	cmd := StatusBarStyle.Render("h hide • m mode • q quit")
+	help := "h hide • m mode • q quit"
+	if m.keycastMode {
+		help = "h hide • f finger color • m mode • q quit"
+	}
+	cmd := StatusBarStyle.Render(help)
 	cmdLine := lipgloss.Place(tw, 1, lipgloss.Center, lipgloss.Center, cmd)
 
 	availH := th - 2
@@ -231,18 +251,26 @@ func fitLabelsToWidth(labels []string, maxWidth int) []string {
 	return labels
 }
 
-func keycastBoxRow(labels []string) string {
-	if len(labels) == 0 {
+func keycastBoxRow(entries []keycastEntry, useColors bool) string {
+	if len(entries) == 0 {
 		return ""
 	}
-	tops := make([]string, len(labels))
-	mids := make([]string, len(labels))
-	bots := make([]string, len(labels))
-	for i, l := range labels {
+	tops := make([]string, len(entries))
+	mids := make([]string, len(entries))
+	bots := make([]string, len(entries))
+	for i, e := range entries {
+		l := e.label
 		w := lipgloss.Width(l)
-		tops[i] = "," + strings.Repeat("-", w+2) + ","
-		mids[i] = "| " + l + " |"
-		bots[i] = "'" + strings.Repeat("-", w+2) + "'"
+		if useColors {
+			s := FingerStyle[e.finger]
+			tops[i] = s.Render("," + strings.Repeat("-", w+2) + ",")
+			mids[i] = s.Render("| " + l + " |")
+			bots[i] = s.Render("'" + strings.Repeat("-", w+2) + "'")
+		} else {
+			tops[i] = "," + strings.Repeat("-", w+2) + ","
+			mids[i] = "| " + l + " |"
+			bots[i] = "'" + strings.Repeat("-", w+2) + "'"
+		}
 	}
 	return strings.Join(tops, " ") + "\n" + strings.Join(mids, " ") + "\n" + strings.Join(bots, " ")
 }

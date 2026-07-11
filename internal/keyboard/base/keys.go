@@ -143,6 +143,49 @@ var (
 
 var EvCodeLabel = buildEvCodeLabelMap()
 
+var EvCodeFinger = buildEvCodeFingerMap()
+
+func buildEvCodeFingerMap() map[uint16]Finger {
+	m := make(map[uint16]Finger, 70)
+	keys := []Key{
+		KeyA, KeyB, KeyC, KeyD, KeyE, KeyF, KeyG, KeyH, KeyI, KeyJ,
+		KeyK, KeyL, KeyM, KeyN, KeyO, KeyP, KeyQ, KeyR, KeyS, KeyT,
+		KeyU, KeyV, KeyW, KeyX, KeyY, KeyZ,
+		Key0, Key1, Key2, Key3, Key4, Key5, Key6, Key7, Key8, Key9,
+		KeyEsc,
+		KeyLeftShiftISO, KeyLeftShift,
+		KeyRightShiftISO, KeyRightShift,
+		KeyLeftCtrl, KeyRightCtrl,
+		KeyLeftMeta, KeyRightMeta,
+		KeyLeftAlt, KeyRightAlt,
+		KeyCapsLock, KeyNumLock, KeyScrollLock,
+		KeyFn,
+		KeyF1, KeyF2, KeyF3, KeyF4, KeyF5, KeyF6, KeyF7, KeyF8, KeyF9, KeyF10, KeyF11, KeyF12,
+		KeyUp, KeyDown, KeyLeft, KeyRight,
+		KeyPageUp, KeyPageDown, KeyHome, KeyEnd,
+		KeyInsert, KeyDelete, KeyBackspace,
+		KeyTab,
+		KeyEnterISO, KeyEnter,
+		KeySpace,
+		KeyGrave, KeyMinus, KeyEqual,
+		KeyLeftBrace, KeyRightBrace, KeyBackslash,
+		KeySemicolon, KeyApostrophe,
+		KeyComma, KeyDot, KeySlash,
+		KeyPound, KeyAcute,
+		KeyPad0, KeyPad1, KeyPad2, KeyPad3, KeyPad4,
+		KeyPad5, KeyPad6, KeyPad7, KeyPad8, KeyPad9,
+		KeyPadPlus, KeyPadMinus, KeyPadAsterisk, KeyPadSlash, KeyPadDot, KeyPadEnter,
+		KeyPrintScreen, KeyLightsToggle,
+		KeyYen, KeyMuhenkan, KeyHenkan, KeyKana,
+		KeyHanja, KeyHangeul,
+		KeyCedilla, KeyTilde, KeyColon, KeyBlank, KeyWon,
+	}
+	for _, k := range keys {
+		m[k.EvCode] = k.Finger
+	}
+	return m
+}
+
 func buildEvCodeLabelMap() map[uint16]string {
 	m := make(map[uint16]string, 70)
 	keys := []Key{

@@ -13,6 +13,7 @@ import (
 type keycastEntry struct {
 	label     string
 	version   int
+	finger    keyboard.Finger
 	pressedAt time.Time
 }
 
@@ -40,9 +41,10 @@ type Model struct {
 	hangeulActive    bool
 	terminalWidth    int
 	terminalHeight   int
-	keycastMode    bool
-	keycastKeys    []keycastEntry
-	keycastFadeVer int
+	keycastMode         bool
+	keycastKeys         []keycastEntry
+	keycastFadeVer      int
+	keycastFingerColors bool
 }
 
 func InitModel(cfg config.Config) Model {

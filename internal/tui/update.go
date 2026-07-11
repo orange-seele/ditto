@@ -92,7 +92,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if m.keycastMode && msg.Down && !isKeycastModifier(msg.Code) {
 			if label, ok := keyboard.ResolveKeycastLabel(msg.Code, m.activeLayout, m.activeStandard, m.pressedKeys); ok {
 				m.keycastFadeVer++
-				entry := keycastEntry{label: label, version: m.keycastFadeVer, pressedAt: time.Now()}
+				fng := basepkg.EvCodeFinger[msg.Code]
+				entry := keycastEntry{label: label, version: m.keycastFadeVer, finger: fng, pressedAt: time.Now()}
 				m.keycastKeys = append(m.keycastKeys, entry)
 				if len(m.keycastKeys) > 5 {
 					m.keycastKeys = m.keycastKeys[1:]
@@ -249,6 +250,10 @@ func (m Model) handleGlobalKeys(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 			case "ks":
 				m.hangeulActive = !m.hangeulActive
 			}
+		}
+	case "f":
+		if m.keycastMode {
+			m.keycastFingerColors = !m.keycastFingerColors
 		}
 	}
 
