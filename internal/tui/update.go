@@ -90,7 +90,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case input.KeyMsg:
 		m.pressedKeys[msg.Code] = msg.Down
 		if m.keycastMode && msg.Down && !isKeycastModifier(msg.Code) {
-			if label, ok := keyboard.ResolveKeycastLabel(msg.Code, m.activeLayout, m.activeStandard, m.pressedKeys); ok {
+			if label, ok := keyboard.ResolveKeycastLabel(msg.Code, m.activeLayout, m.activeStandard, m.pressedKeys, m.capsLock); ok {
 				m.keycastFadeVer++
 				fng := basepkg.EvCodeFinger[msg.Code]
 				entry := keycastEntry{label: label, version: m.keycastFadeVer, finger: fng, pressedAt: time.Now()}

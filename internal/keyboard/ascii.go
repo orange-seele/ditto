@@ -75,7 +75,7 @@ func resolveStandard(standard string) (Data, bool) {
 	return sd, ok
 }
 
-func ResolveKeycastLabel(scancode uint16, layout, standard string, pressedKeys map[uint16]bool) (string, bool) {
+func ResolveKeycastLabel(scancode uint16, layout, standard string, pressedKeys map[uint16]bool, capsLock bool) (string, bool) {
 	label, ok := base.EvCodeLabel[scancode]
 	if !ok {
 		return "", false
@@ -87,15 +87,25 @@ func ResolveKeycastLabel(scancode uint16, layout, standard string, pressedKeys m
 		}
 	}
 
+	if utf8.RuneCountInString(label) == 1 {
+		label = strings.ToLower(label)
+	}
+
 	shiftHeld := pressedKeys[base.KEY_LEFTSHIFT] || pressedKeys[base.KEY_RIGHTSHIFT]
 	altGrHeld := pressedKeys[base.KEY_RIGHTALT]
 
 	if !shiftHeld && !altGrHeld {
+		if capsLock && utf8.RuneCountInString(label) == 1 {
+			label = strings.ToUpper(label)
+		}
 		return label, true
 	}
 
 	sd, ok := resolveStandard(standard)
 	if !ok {
+		if shiftHeld && utf8.RuneCountInString(label) == 1 {
+			label = strings.ToUpper(label)
+		}
 		return label, true
 	}
 
@@ -118,6 +128,9 @@ func ResolveKeycastLabel(scancode uint16, layout, standard string, pressedKeys m
 	} else if shiftHeld && shiftMap != nil {
 		if newLabel, ok := shiftMap[label]; ok {
 			label = newLabel
+		}
+		if utf8.RuneCountInString(label) == 1 {
+			label = strings.ToUpper(label)
 		}
 	}
 

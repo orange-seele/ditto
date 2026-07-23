@@ -242,8 +242,8 @@ func TestModel_keycastKeyDown(t *testing.T) {
 	m := testModel(t)
 	m.keycastMode = true
 	m = updateModel(t, m, input.KeyMsg{Code: basepkg.KEY_A, Down: true})
-	if len(m.keycastKeys) != 1 || m.keycastKeys[0].label != "A" {
-		t.Errorf("expected keycastKeys [A], got %v", m.keycastKeys)
+	if len(m.keycastKeys) != 1 || m.keycastKeys[0].label != "a" {
+		t.Errorf("expected keycastKeys [a], got %v", m.keycastKeys)
 	}
 }
 
