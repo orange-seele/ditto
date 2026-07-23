@@ -50,6 +50,7 @@ jobs:
         run: go build -o ditto_${{ matrix.goos }}_${{ matrix.goarch }}${{ matrix.ext }} ./cmd/ditto/
 
       - name: Package
+        shell: bash
         run: |
           if [ '${{ matrix.goos }}' = 'windows' ]; then
             7z a ditto_${{ matrix.goos }}_${{ matrix.goarch }}${{ matrix.archive_ext }} ditto_${{ matrix.goos }}_${{ matrix.goarch }}${{ matrix.ext }}
