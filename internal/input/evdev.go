@@ -4,11 +4,13 @@ package input
 
 import (
 	"fmt"
+	"image/color"
 	"os"
 	"os/exec"
 	"strings"
 
 	tea "charm.land/bubbletea/v2"
+	lipgloss "charm.land/lipgloss/v2"
 	evdev "github.com/gvalkov/golang-evdev"
 )
 
@@ -95,26 +97,67 @@ func checkUdevadm(eventNum int) bool {
 }
 
 func PrintDeviceError(err error) {
-	fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+	isDark := lipgloss.HasDarkBackground(os.Stdin, os.Stderr)
+
+	var (
+		red    color.Color
+		green  color.Color
+		blue   color.Color
+		yellow color.Color
+	)
+	if isDark {
+		red = lipgloss.BrightRed
+		green = lipgloss.BrightGreen
+		blue = lipgloss.BrightBlue
+		yellow = lipgloss.BrightYellow
+	} else {
+		red = lipgloss.Red
+		green = lipgloss.Green
+		blue = lipgloss.Blue
+		yellow = lipgloss.Yellow
+	}
+
+	errorLabel := lipgloss.NewStyle().Bold(true).Foreground(red)
+	errorMsg := lipgloss.NewStyle().Foreground(red)
+	dim := lipgloss.NewStyle().Faint(true)
+	fixLabel := lipgloss.NewStyle().Bold(true).Foreground(yellow)
+	noteLabel := lipgloss.NewStyle().Bold(true).Foreground(blue)
+	cmd := lipgloss.NewStyle().Foreground(green)
 
 	exe, exeErr := os.Executable()
 	if exeErr != nil {
 		exe = "ditto"
 	}
 
-	fmt.Fprintf(os.Stderr, `
-This app reads raw evdev keyboard events directly (rather than through
-a display server) in order to work inside the TUI. That requires
-read access to /dev/input/event*, which isn't readable by normal
-users by default.
+	fmt.Fprintf(
+		os.Stderr, "%s %s\n\n",
+		errorLabel.Render("Error:"),
+		errorMsg.Render(err.Error()),
+	)
 
-Fix: sudo setcap cap_dac_read_search=ep %s
+	fmt.Fprintf(os.Stderr, "%s\n\n", dim.Render(
+		"This app reads raw evdev keyboard events directly (rather than through\na display server) in order to work inside the TUI. That requires\nread access to /dev/input/event*, which isn't readable by normal\nusers by default.",
+	))
 
-This grants read access to just this binary. It doesn't run as
-root, just bypasses one permission check.
+	fmt.Fprintf(
+		os.Stderr, "%s %s\n\n",
+		fixLabel.Render("Fix:"),
+		cmd.Render("sudo setcap cap_dac_read_search=ep "+exe),
+	)
 
-Revoke anytime with: sudo setcap -r %s
+	fmt.Fprintf(os.Stderr, "%s\n\n", dim.Render(
+		"This grants read access to just this binary. It doesn't run as\nroot, just bypasses one permission check.",
+	))
 
-Note: re-run this after rebuilding/reinstalling the binary.
-`, exe, exe)
+	fmt.Fprintf(
+		os.Stderr, "%s %s\n\n",
+		fixLabel.Render("Revoke anytime with:"),
+		cmd.Render("sudo setcap -r "+exe),
+	)
+
+	fmt.Fprintf(
+		os.Stderr, "%s %s\n",
+		noteLabel.Render("Note:"),
+		dim.Render("re-run this after rebuilding/reinstalling the binary."),
+	)
 }
