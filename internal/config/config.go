@@ -13,6 +13,7 @@ type Config struct {
 	ActiveStandard string `json:"active_standard"`
 	Locked         bool   `json:"locked"`
 	ShowAllInfo    *bool  `json:"show_all_info,omitempty"`
+	KeycastBoxDraw *bool  `json:"keycast_box_draw,omitempty"`
 }
 
 const DirName = "ditto"

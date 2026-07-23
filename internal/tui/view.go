@@ -182,7 +182,7 @@ func keycastView(m Model) string {
 		}
 	}
 
-	row := keycastBoxRow(kept, m.keycastFingerColors)
+	row := keycastBoxRow(kept, m.keycastFingerColors, m.keycastBoxDraw)
 
 	showBar := m.showAllInfo
 	if !showBar {
@@ -194,7 +194,7 @@ func keycastView(m Model) string {
 
 	help := "h hide • m mode • q quit"
 	if m.keycastMode {
-		help = "h hide • f finger color • m mode • q quit"
+		help = "b box draw • f finger color • m mode • h hide •  q quit"
 	}
 	cmd := StatusBarStyle.Render(help)
 	cmdLine := lipgloss.Place(tw, 1, lipgloss.Center, lipgloss.Center, cmd)
@@ -226,7 +226,7 @@ func fitLabelsToWidth(labels []string, maxWidth int) []string {
 	return labels
 }
 
-func keycastBoxRow(entries []keycastEntry, useColors bool) string {
+func keycastBoxRow(entries []keycastEntry, useColors, boxDraw bool) string {
 	if len(entries) == 0 {
 		return ""
 	}
@@ -236,15 +236,28 @@ func keycastBoxRow(entries []keycastEntry, useColors bool) string {
 	for i, e := range entries {
 		l := e.label
 		w := lipgloss.Width(l)
-		if useColors {
-			s := FingerStyle[e.finger]
-			tops[i] = s.Render("," + strings.Repeat("-", w+2) + ",")
-			mids[i] = s.Render("| " + l + " |")
-			bots[i] = s.Render("'" + strings.Repeat("-", w+2) + "'")
+		if boxDraw {
+			if useColors {
+				s := FingerStyle[e.finger]
+				tops[i] = s.Render("╭" + strings.Repeat("─", w+2) + "╮")
+				mids[i] = s.Render("│ " + l + " │")
+				bots[i] = s.Render("╰" + strings.Repeat("─", w+2) + "╯")
+			} else {
+				tops[i] = "╭" + strings.Repeat("─", w+2) + "╮"
+				mids[i] = "│ " + l + " │"
+				bots[i] = "╰" + strings.Repeat("─", w+2) + "╯"
+			}
 		} else {
-			tops[i] = "," + strings.Repeat("-", w+2) + ","
-			mids[i] = "| " + l + " |"
-			bots[i] = "'" + strings.Repeat("-", w+2) + "'"
+			if useColors {
+				s := FingerStyle[e.finger]
+				tops[i] = s.Render("," + strings.Repeat("-", w+2) + ",")
+				mids[i] = s.Render("| " + l + " |")
+				bots[i] = s.Render("'" + strings.Repeat("-", w+2) + "'")
+			} else {
+				tops[i] = "," + strings.Repeat("-", w+2) + ","
+				mids[i] = "| " + l + " |"
+				bots[i] = "'" + strings.Repeat("-", w+2) + "'"
+			}
 		}
 	}
 	return strings.Join(tops, " ") + "\n" + strings.Join(mids, " ") + "\n" + strings.Join(bots, " ")

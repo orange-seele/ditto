@@ -45,6 +45,7 @@ type Model struct {
 	keycastKeys         []keycastEntry
 	keycastFadeVer      int
 	keycastFingerColors bool
+	keycastBoxDraw      bool
 }
 
 func InitModel(cfg config.Config) Model {
@@ -95,6 +96,11 @@ func InitModel(cfg config.Config) Model {
 		showAllInfo = *cfg.ShowAllInfo
 	}
 
+	keycastBoxDraw := false
+	if cfg.KeycastBoxDraw != nil {
+		keycastBoxDraw = *cfg.KeycastBoxDraw
+	}
+
 	return Model{
 		layoutList: layoutList,
 		sizeList:   sizeList,
@@ -120,17 +126,20 @@ func InitModel(cfg config.Config) Model {
 		showSizeList:     false,
 		showStandardList: false,
 		showAllInfo:      showAllInfo,
-		pressedKeys: make(map[uint16]bool),
+		pressedKeys:      make(map[uint16]bool),
+		keycastBoxDraw:   keycastBoxDraw,
 	}
 }
 
 func (m Model) saveConfig() config.Config {
 	v := m.showAllInfo
+	v2 := m.keycastBoxDraw
 	return config.Config{
 		ActiveLayout:   m.activeLayout,
 		ActiveSize:     m.activeSize,
 		ActiveStandard: m.activeStandard,
 		Locked:         m.locked,
 		ShowAllInfo:    &v,
+		KeycastBoxDraw: &v2,
 	}
 }
